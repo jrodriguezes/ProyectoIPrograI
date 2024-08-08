@@ -9,6 +9,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     public javax.swing.JMenuItem jMenuItemLogout;
     private int logged = 0;
+    private int userId;
 
     public JFramePrincipal() {
         initComponents();
@@ -17,6 +18,15 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     public void setLogged(int status) {
         this.logged = status;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    // Metodo para obtener el userId
+    public int getUserId() {
+        return userId;
     }
 
     @SuppressWarnings("unchecked")

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package presentacion;
 
 import java.awt.Image;
@@ -27,9 +23,9 @@ import objects.Aerolinea;
 import objects.Aeropuerto;
 import objects.Vuelo;
 
-
 public class FlightSearch extends javax.swing.JDialog {
-    
+
+    private int userId = 0;
     private static DefaultTableModel model;
     public static String rutaImagenAvion = "src/resources/photos/avion2.jpg";
     public static String rutaImagenExit = "src/resources/photos/btnSalir.png";
@@ -41,6 +37,9 @@ public class FlightSearch extends javax.swing.JDialog {
         cargarImagen();
         loadExitImage();
         fillCombos();
+
+        JFramePrincipal mainFrame = (JFramePrincipal) parent;
+        this.userId = mainFrame.getUserId();
     }
 
     @SuppressWarnings("unchecked")
@@ -155,7 +154,7 @@ public class FlightSearch extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void lblImagenExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImagenExitMouseClicked
         Window window = SwingUtilities.getWindowAncestor(lblImagenExit);
         window.dispose();
@@ -218,23 +217,22 @@ public class FlightSearch extends javax.swing.JDialog {
             int uniqueId = searchFlight.generateUniqueHistoryId();
             SimpleDateFormat actualDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            int userId = 0; // Implement this as needed
             int idDepartureAirport = searchFlight.getAirportIdByName(aeropuertoSalida);
             int idArrivalAirport = searchFlight.getAirportIdByName(aeropuertoLlegada);
             int quantityTickets = (Integer) spinnerPassengers.getValue();
             Date actualDateTime = new Date();
 
             String[] historial = new String[10];
-            historial[0] = String.valueOf(uniqueId);
-            historial[1] = String.valueOf(userId); //usuario necesita ser implementada
-            historial[2] = String.valueOf(idDepartureAirport);
-            historial[3] = String.valueOf(idArrivalAirport);
+            historial[0] = String.valueOf(uniqueId);// id de historial
+            historial[1] = String.valueOf(userId); // id cliente
+            historial[2] = String.valueOf(idDepartureAirport); // aeropuerto salida
+            historial[3] = String.valueOf(idArrivalAirport); // aeropuerto llegada
             historial[4] = String.valueOf(31); // escala necesita ser implementada
             historial[5] = actualDate.format(actualDateTime);  // fecha y hora de compra
-            historial[6] = String.valueOf(quantityTickets);
+            historial[6] = String.valueOf(quantityTickets); // cantidas personas
             historial[7] = "A1"; // asientos necesita ser implementada
-            historial[8] = String.valueOf(duracion);
-            historial[9] = String.valueOf(preciosTotales);
+            historial[8] = String.valueOf(duracion); // duracion total
+            historial[9] = String.valueOf(preciosTotales); // precio total
 
             searchFlight.addHistory(historial);
         });

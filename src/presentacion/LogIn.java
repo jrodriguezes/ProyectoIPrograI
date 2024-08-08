@@ -16,7 +16,7 @@ import logic.validations;
 
 public class LogIn extends javax.swing.JDialog {
 
-    private String idCedula;
+
     private JFramePrincipal parent;
     public static String rutaImagenAvion = "src/resources/photos/avion.jpg";
     public static String rutaImagenExit = "src/resources/photos/btnSalir.png";
@@ -125,7 +125,9 @@ public class LogIn extends javax.swing.JDialog {
         if (!validationS.validateAsAIntegerInTextField(txtCedulaConverted)) {
             return;
         }
+        int idPassenger = Integer.parseInt(txtCedula.getText());
         String status = login.logIn(Integer.parseInt(txtCedula.getText()), txtContrasena.getText());
+        
         switch (status) {
             case "admin":
                 JOptionPane.showMessageDialog(this, "Usted es admin", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -133,6 +135,7 @@ public class LogIn extends javax.swing.JDialog {
                 parent.jMenuItem2.setVisible(false);
                 parent.jMenuItem3.setVisible(true);
                 parent.jMenuItemLogout.setVisible(true); 
+                parent.setUserId(idPassenger);
                 parent.setLogged(1);
                 this.dispose();
                 break;
@@ -140,6 +143,7 @@ public class LogIn extends javax.swing.JDialog {
                 parent.jMenuItem2.setVisible(true);
                 parent.jMenuItemLogout.setVisible(true); 
                 parent.setLogged(1);
+                parent.setUserId(idPassenger);
                 this.dispose();
                 break;
             case "not found":
@@ -186,10 +190,10 @@ public class LogIn extends javax.swing.JDialog {
                 ImageIcon newImageIcon = new ImageIcon(newimg);
                 lblImagen.setIcon(newImageIcon);
             } else {
-                lblImagen.setText("No se encontró la imagen.");
+                lblImagen.setText("No se encontro la imagen.");
             }
         } else {
-            lblImagen.setText("No se proporcionó ninguna ruta de imagen.");
+            lblImagen.setText("No se proporciono ninguna ruta de imagen.");
         }
     }
 
@@ -203,10 +207,10 @@ public class LogIn extends javax.swing.JDialog {
                 ImageIcon newImageIcon = new ImageIcon(newimg);
                 lblImagenExit.setIcon(newImageIcon);
             } else {
-                lblImagenExit.setText("No se encontró la imagen.");
+                lblImagenExit.setText("No se encontro la imagen.");
             }
         } else {
-            lblImagenExit.setText("No se proporcionó ninguna ruta de imagen.");
+            lblImagenExit.setText("No se proporciono ninguna ruta de imagen.");
         }
     }
 
