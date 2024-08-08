@@ -4,6 +4,8 @@
  */
 package logic;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -120,4 +122,14 @@ public class validations {
         JOptionPane.showMessageDialog(null, "El correo debe de contener @gmail.com");
         return false;
     }
+    
+    public static Date safeParseDate(String dateStr, SimpleDateFormat format) {
+    try {
+        return format.parse(dateStr);
+    } catch (ParseException e) {
+        // Manejar el error aqui, por ejemplo, loguear el problema y retornar null o una fecha predeterminada
+        System.err.println("Error al parsear la fecha: " + dateStr);
+        return null;
+    }
+}
 }

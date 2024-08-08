@@ -26,14 +26,10 @@ import logic.createFlight;
 import objects.Aerolinea;
 import objects.Aeropuerto;
 import objects.Vuelo;
-import static presentacion.FlightCreator.rutaImagenExit;
 
-/**
- *
- * @author Admin
- */
+
 public class FlightSearch extends javax.swing.JDialog {
-
+    
     private static DefaultTableModel model;
     public static String rutaImagenAvion = "src/resources/photos/avion2.jpg";
     public static String rutaImagenExit = "src/resources/photos/btnSalir.png";
@@ -159,6 +155,7 @@ public class FlightSearch extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void lblImagenExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImagenExitMouseClicked
         Window window = SwingUtilities.getWindowAncestor(lblImagenExit);
         window.dispose();
@@ -225,16 +222,17 @@ public class FlightSearch extends javax.swing.JDialog {
             int idDepartureAirport = searchFlight.getAirportIdByName(aeropuertoSalida);
             int idArrivalAirport = searchFlight.getAirportIdByName(aeropuertoLlegada);
             int quantityTickets = (Integer) spinnerPassengers.getValue();
+            Date actualDateTime = new Date();
 
             String[] historial = new String[10];
             historial[0] = String.valueOf(uniqueId);
-            historial[1] = String.valueOf(userId); // Implement as needed
+            historial[1] = String.valueOf(userId); //usuario necesita ser implementada
             historial[2] = String.valueOf(idDepartureAirport);
             historial[3] = String.valueOf(idArrivalAirport);
-            historial[4] = String.valueOf(31); // Implement as needed
-            historial[5] = actualDate.format(new Date()); // Current date and time
+            historial[4] = String.valueOf(31); // escala necesita ser implementada
+            historial[5] = actualDate.format(actualDateTime);  // fecha y hora de compra
             historial[6] = String.valueOf(quantityTickets);
-            historial[7] = "A1, B1, C1"; // Implement as needed
+            historial[7] = "A1"; // asientos necesita ser implementada
             historial[8] = String.valueOf(duracion);
             historial[9] = String.valueOf(preciosTotales);
 

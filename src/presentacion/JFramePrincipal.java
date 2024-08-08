@@ -7,6 +7,7 @@ import javax.swing.event.MenuListener;
 
 public class JFramePrincipal extends javax.swing.JFrame {
 
+    public javax.swing.JMenuItem jMenuItemLogout;
     private int logged = 0;
 
     public JFramePrincipal() {
@@ -28,6 +29,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +100,15 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
         jMenuBar2.add(InicioSesion);
 
+        jMenuItemLogout.setText("Cerrar Sesión");
+        jMenuItemLogout.setVisible(false); // Initially hidden
+        jMenuItemLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        InicioSesion.add(jMenuItemLogout);
+
         jMenu4.setText("Registro de pasajeros");
         jMenuBar2.add(jMenu4);
 
@@ -133,6 +144,21 @@ public class JFramePrincipal extends javax.swing.JFrame {
     private void openFlightCreator() {
         FlightCreator flightCreator = new FlightCreator(this, true);
         flightCreator.setVisible(true);
+    }
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {
+        // Reset the logged status
+        logged = 0;
+
+        // Hide all menu items that should be hidden after logout
+        jMenuItem1.setVisible(false);
+        jMenuItem2.setVisible(false);
+        jMenuItem3.setVisible(false);
+        jMenuItemLogout.setVisible(false);
+
+        // Show the login dialog
+        LogIn loginDialog = new LogIn(this, true);
+        loginDialog.setVisible(true);
     }
 
     public static void main(String args[]) {

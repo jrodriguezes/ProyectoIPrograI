@@ -151,7 +151,7 @@ public class actualData {
                     + String.valueOf(historialActual.getIdDepartureAirport()) + ","
                     + String.valueOf(historialActual.getIdArrivalAirport()) + ","
                     + String.valueOf(historialActual.getIdStopoverAirport()) + ","
-                    + historialActual.getRealTimeFlightBought() + ","
+                    + String.valueOf(historialActual.getRealTimeFlightBought()) + ","
                     + String.valueOf(historialActual.getAmountOfTickets()) + ","
                     + historialActual.getSeats() + ","
                     + String.valueOf(historialActual.getTotalDuration()) + ","

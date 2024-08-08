@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import logic.validations;
 import objects.*;
 
 /**
@@ -180,18 +181,25 @@ public class Data {
                 return vuelos;
             case "historial":
                 List<Historial> historiales = new ArrayList<>();
-                SimpleDateFormat dateFormatRealTime = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
+                SimpleDateFormat primaryFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+                SimpleDateFormat alternativeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 for (String[] lineaDato : datos) {
                     if (lineaDato.length >= 10) {
                         try {
                             Historial actualHistory = new Historial();
+                            validations validations = new validations();
                             actualHistory.setIdHistorial(Integer.parseInt(lineaDato[0].trim()));
                             actualHistory.setIdPassenger(Integer.parseInt(lineaDato[1].trim()));
                             actualHistory.setIdDepartureAirport(Integer.parseInt(lineaDato[2].trim()));
                             actualHistory.setIdArrivalAirport(Integer.parseInt(lineaDato[3].trim()));
                             actualHistory.setIdStopoverAirport(Integer.parseInt(lineaDato[4].trim()));
-                            actualHistory.setRealTimeFlightBought(dateFormatRealTime.parse(lineaDato[5].trim()));
+
+                            Date parsedDate = validations.safeParseDate(lineaDato[5].trim(), primaryFormat);
+                            if (parsedDate != null) {
+                                actualHistory.setRealTimeFlightBought(parsedDate);
+                            }
+
                             actualHistory.setAmountOfTickets(Integer.parseInt(lineaDato[6].trim()));
                             actualHistory.setSeats((lineaDato[7].trim()));
                             actualHistory.setTotalDuration(Integer.parseInt(lineaDato[8].trim()));
@@ -199,12 +207,12 @@ public class Data {
 
                             historiales.add(actualHistory);
 
-                        } catch (NumberFormatException | ParseException e) {
+                        } catch (NumberFormatException e) {
                             System.err.println("Error al parsear la línea: " + Arrays.toString(lineaDato));
                             e.printStackTrace();
                         }
                     } else {
-                        System.err.println("Registro de vuelo incompleto: " + Arrays.toString(lineaDato));
+                        System.err.println("Registro de historial incompleto: " + Arrays.toString(lineaDato));
                     }
                 }
                 return historiales;

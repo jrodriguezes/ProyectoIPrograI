@@ -4,21 +4,13 @@
  */
 package logic;
 
-import datechooser.beans.DateChooserCombo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.table.DefaultTableModel;
-import objects.Aerolinea;
 import objects.Aeropuerto;
 import objects.Historial;
-import objects.Vuelo;
 
 /**
  *
@@ -33,7 +25,7 @@ public class SearchFlight {
 
         Historial newHistory = new Historial();
 
-        SimpleDateFormat dateFormatRealTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat actualDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
             newHistory.setIdHistorial(Integer.parseInt(history[0]));
@@ -41,7 +33,7 @@ public class SearchFlight {
             newHistory.setIdDepartureAirport(Integer.parseInt(history[2]));
             newHistory.setIdArrivalAirport(Integer.parseInt(history[3]));
             newHistory.setIdStopoverAirport(Integer.parseInt(history[4]));
-            newHistory.setRealTimeFlightBought(dateFormatRealTime.parse(history[5]));
+            newHistory.setRealTimeFlightBought(actualDate.parse(history[5]));
             newHistory.setAmountOfTickets(Integer.parseInt(history[6]));
             newHistory.setSeats(history[7]);
             newHistory.setTotalDuration(Integer.parseInt(history[8]));
