@@ -171,19 +171,25 @@ public class FlightSearch extends javax.swing.JDialog {
     private void showFlightDetailsDialog(int selectedRow) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+// Get values from table
         String aerolinea = (String) jTable1.getValueAt(selectedRow, 0);
         String aeropuertoSalida = (String) jTable1.getValueAt(selectedRow, 1);
         String aeropuertoLlegada = (String) jTable1.getValueAt(selectedRow, 2);
         String escala = (String) jTable1.getValueAt(selectedRow, 3);
-        // Convertir Date objects a Strings si es necesario
+
+// Convert Date objects to Strings if necessary
         Object horaSalidaObj = jTable1.getValueAt(selectedRow, 4);
         Object horaLlegadaObj = jTable1.getValueAt(selectedRow, 5);
         Object duracionObj = jTable1.getValueAt(selectedRow, 6);
         Object preciosTotalesObj = jTable1.getValueAt(selectedRow, 7);
+
+// Handle Date objects separately
         String horaSalida = horaSalidaObj instanceof Date ? dateFormat.format((Date) horaSalidaObj) : horaSalidaObj.toString();
         String horaLlegada = horaLlegadaObj instanceof Date ? dateFormat.format((Date) horaLlegadaObj) : horaLlegadaObj.toString();
-        String duracion = duracionObj instanceof Date ? dateFormat.format((Date) duracionObj) : duracionObj.toString();
-        String preciosTotales = preciosTotalesObj instanceof Date ? dateFormat.format((Date) preciosTotalesObj) : preciosTotalesObj.toString();
+
+// Assuming duracionObj and preciosTotalesObj are not Date objects
+        String duracion = duracionObj != null ? duracionObj.toString() : "N/A";
+        String preciosTotales = preciosTotalesObj != null ? preciosTotalesObj.toString() : "N/A";
 
         JButton btnRegresar = new JButton("Regresar");
         JButton btnComprar = new JButton("Comprar");
@@ -201,6 +207,7 @@ public class FlightSearch extends javax.swing.JDialog {
                 + "Duracion: " + duracion + "\n"
                 + "Precios totales: " + preciosTotales;
 
+// Set up button actions
         btnRegresar.addActionListener(event -> {
             Window window = SwingUtilities.getWindowAncestor(panelBotones);
             if (window != null) {
@@ -214,21 +221,20 @@ public class FlightSearch extends javax.swing.JDialog {
             int uniqueId = searchFlight.generateUniqueHistoryId();
             SimpleDateFormat actualDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            int userId = 0;
+            int userId = 0; // Implement this as needed
             int idDepartureAirport = searchFlight.getAirportIdByName(aeropuertoSalida);
             int idArrivalAirport = searchFlight.getAirportIdByName(aeropuertoLlegada);
-            String actualDateNHour = searchFlight.generateActualDate();
             int quantityTickets = (Integer) spinnerPassengers.getValue();
 
             String[] historial = new String[10];
             historial[0] = String.valueOf(uniqueId);
-            historial[1] = String.valueOf(423); // falta implementar
+            historial[1] = String.valueOf(userId); // Implement as needed
             historial[2] = String.valueOf(idDepartureAirport);
             historial[3] = String.valueOf(idArrivalAirport);
-            historial[4] = String.valueOf(31); // falta implementar
-            historial[5] = String.valueOf(actualDateNHour);
+            historial[4] = String.valueOf(31); // Implement as needed
+            historial[5] = actualDate.format(new Date()); // Current date and time
             historial[6] = String.valueOf(quantityTickets);
-            historial[7] = "A1, B1, C1"; // falta implementar
+            historial[7] = "A1, B1, C1"; // Implement as needed
             historial[8] = String.valueOf(duracion);
             historial[9] = String.valueOf(preciosTotales);
 

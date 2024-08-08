@@ -33,7 +33,7 @@ public class SearchFlight {
 
         Historial newHistory = new Historial();
 
-        SimpleDateFormat dateFormatRealTime = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormatRealTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
             newHistory.setIdHistorial(Integer.parseInt(history[0]));
