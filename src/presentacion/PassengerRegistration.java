@@ -240,6 +240,10 @@ public class PassengerRegistration extends javax.swing.JDialog {
         if (!validationS.validateAsAIntegerInTextField(id)) {
             return;
         }
+        
+        if (!validationS.validateGmail(txtCorreo)) {
+            return;
+        }
 
         String[] passenger = new String[6];
         passenger[0] = id;

@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
 /**
@@ -44,9 +45,7 @@ public class validations {
         }
         return true;
     }
-    
-    
-    
+
     public boolean validateArrivalDate(Date departureDate, Date arrivalDate) {
         if (arrivalDate != null && departureDate != null) {
             if (!arrivalDate.after(departureDate)) {
@@ -109,5 +108,16 @@ public class validations {
         // Crear un editor de fecha para mostrar solo horas
         JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "HH:mm");
         spinner.setEditor(editor);
+    }
+
+    public boolean validateGmail(JTextField gmail) {
+        final String requirement = "@gmail.com";
+        String account = gmail.getText();
+        
+        if (account.contains(requirement)) {
+            return true;
+        }
+        JOptionPane.showMessageDialog(null, "El correo debe de contener @gmail.com");
+        return false;
     }
 }

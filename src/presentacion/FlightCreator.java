@@ -83,47 +83,47 @@ public class FlightCreator extends javax.swing.JDialog {
         lblFechaSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFechaSalida.setForeground(new java.awt.Color(255, 255, 255));
         lblFechaSalida.setText("FECHA DE SALIDA");
-        jPanel1.add(lblFechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
+        jPanel1.add(lblFechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
 
         lblAerolinea.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblAerolinea.setForeground(new java.awt.Color(255, 255, 255));
         lblAerolinea.setText("AEROLINEA");
-        jPanel1.add(lblAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, -1, -1));
+        jPanel1.add(lblAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, -1, -1));
 
         lblAeropuertoSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblAeropuertoSalida.setForeground(new java.awt.Color(255, 255, 255));
         lblAeropuertoSalida.setText("AEROPUERTO DE SALIDA");
-        jPanel1.add(lblAeropuertoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, -1, -1));
+        jPanel1.add(lblAeropuertoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, -1, -1));
 
         lblFechaLlegada.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFechaLlegada.setForeground(new java.awt.Color(255, 255, 255));
         lblFechaLlegada.setText("FECHA DE LLEGADA");
-        jPanel1.add(lblFechaLlegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, -1, -1));
+        jPanel1.add(lblFechaLlegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, -1, -1));
 
         lblHoraSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblHoraSalida.setForeground(new java.awt.Color(255, 255, 255));
         lblHoraSalida.setText("HORA DE SALIDA");
-        jPanel1.add(lblHoraSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
+        jPanel1.add(lblHoraSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
 
         lblAeropuertoLlegada.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblAeropuertoLlegada.setForeground(new java.awt.Color(255, 255, 255));
         lblAeropuertoLlegada.setText("AEROPUERTO DE LLEGADA");
-        jPanel1.add(lblAeropuertoLlegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, -1, -1));
+        jPanel1.add(lblAeropuertoLlegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, -1));
 
         lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblPrecio.setForeground(new java.awt.Color(255, 255, 255));
         lblPrecio.setText("PRECIO");
-        jPanel1.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, -1, -1));
+        jPanel1.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 320, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("HORA DE LLEGADA");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, -1, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 240, -1, -1));
 
         lblCreacionVuelos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblCreacionVuelos.setForeground(new java.awt.Color(255, 255, 255));
         lblCreacionVuelos.setText("CREACION DE VUELOS");
-        jPanel1.add(lblCreacionVuelos, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+        jPanel1.add(lblCreacionVuelos, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
 
         btnCrear.setBackground(new java.awt.Color(60, 63, 65));
         btnCrear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -134,11 +134,11 @@ public class FlightCreator extends javax.swing.JDialog {
                 btnCrearActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 400, -1, -1));
+        jPanel1.add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 410, -1, -1));
 
         jcbAerolinea.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jcbAerolinea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una aerolinea" }));
-        jPanel1.add(jcbAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, -1, 30));
+        jPanel1.add(jcbAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, -1, 30));
 
         txtPrecio.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(204, 204, 204));
@@ -148,25 +148,25 @@ public class FlightCreator extends javax.swing.JDialog {
                 txtPrecioMousePressed(evt);
             }
         });
-        jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 120, 30));
+        jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, 120, 30));
 
         jcbAeropuertoSalida.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jcbAeropuertoSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un aeropuerto de salida" }));
-        jPanel1.add(jcbAeropuertoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 230, 30));
+        jPanel1.add(jcbAeropuertoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 300, 30));
 
         jcbAeropuertoLlegada.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jcbAeropuertoLlegada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un aeropuerto de llegada" }));
-        jPanel1.add(jcbAeropuertoLlegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 230, 30));
+        jPanel1.add(jcbAeropuertoLlegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 300, 30));
 
         jSpinner1.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jSpinner1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
-        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 150, 30));
+        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 150, 30));
 
         jSpinner2.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jSpinner2.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
-        jPanel1.add(jSpinner2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 150, 30));
-        jPanel1.add(dCCFechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 150, 30));
-        jPanel1.add(dCCFechaEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 150, 30));
+        jPanel1.add(jSpinner2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 260, 150, 30));
+        jPanel1.add(dCCFechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 150, 30));
+        jPanel1.add(dCCFechaEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 160, 150, 30));
 
         lblImagenExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -174,7 +174,7 @@ public class FlightCreator extends javax.swing.JDialog {
             }
         });
         jPanel1.add(lblImagenExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 30));
-        jPanel1.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 530));
+        jPanel1.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,7 +192,7 @@ public class FlightCreator extends javax.swing.JDialog {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         validations validationS = new validations();
-createFlight createFlight = new createFlight();
+        createFlight createFlight = new createFlight();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         // Formato para las horas
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
@@ -215,16 +215,15 @@ createFlight createFlight = new createFlight();
         }
         int planeId = createFlight.getPlaneId(airlineName);
         int[] tripulacion = createFlight.getCrew(airlineName);
-        
+
         int airlineId = createFlight.getAirlineIdByName(airlineName);
         int departureAirportId = createFlight.getAirportIdByName(departureAirport);
         int arrivalAirportId = createFlight.getAirportIdByName(arrivalAirport);
         int duration = createFlight.getDuration(departureDate, departureHour, arrivalDate, arrivalHour);
 
-
-if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, arrivalHour)) {
-    return; // Detener la ejecucion si devuelve false 
-}
+        if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, arrivalHour)) {
+            return; // Detener la ejecucion si devuelve false 
+        }
 
         if (!validationS.validateArrivalDate(departureDate, arrivalDate)) {
             return;
@@ -250,19 +249,19 @@ if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, 
         flight[7] = timeFormat.format(arrivalHour);
         flight[8] = String.valueOf(arrivalAirportId);
         flight[9] = String.valueOf(duration);
-        flight[10] = String.valueOf(planeId); //id avion falta 
-        flight[11] = String.valueOf(tripulacion[0]); // id tripulacion falta
-        flight[12] = String.valueOf(tripulacion[1]); // id tripulacion falta
-        System.out.println(planeId+"Plane id");
-        if(planeId == 0){
+        flight[10] = String.valueOf(planeId); 
+        flight[11] = String.valueOf(tripulacion[0]); 
+        flight[12] = String.valueOf(tripulacion[1]); 
+        System.out.println(planeId + "Plane id");
+        if (planeId == 0) {
             JOptionPane.showMessageDialog(this, "No hay aviones disponibles en la aerolinea seleccionada", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{ 
-            if(tripulacion[0] != 0 && tripulacion[1] !=0){
+        } else {
+            if (tripulacion[0] != 0 && tripulacion[1] != 0) {
+                
                 createFlight.addFlight(flight);
+                
                 JOptionPane.showMessageDialog(this, "Vuelo añadido", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Personal disponible insuficiente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -277,8 +276,8 @@ if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, 
     }//GEN-LAST:event_txtPrecioMousePressed
 
     private void lblImagenExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImagenExitMouseClicked
-       Window window = SwingUtilities.getWindowAncestor(lblImagenExit);
-       window.dispose();
+        Window window = SwingUtilities.getWindowAncestor(lblImagenExit);
+        window.dispose();
     }//GEN-LAST:event_lblImagenExitMouseClicked
 
     private void cargarImagen() {
@@ -297,7 +296,8 @@ if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, 
             lblImagen.setText("No se proporcionó ninguna ruta de imagen.");
         }
     }
-        private void loadExitImage() {
+
+    private void loadExitImage() {
         if (rutaImagenExit != null && !rutaImagenExit.isEmpty()) {
             File imagen = new File(rutaImagenExit);
             if (imagen.exists()) {

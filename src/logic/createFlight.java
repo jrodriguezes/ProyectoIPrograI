@@ -34,6 +34,7 @@ public class createFlight {
         actualData actualData = new actualData();
         List<Vuelo> actualFlight = actualData.getFlights();
         Vuelo newFlight = new Vuelo();
+        
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         // Formato para las horas
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
@@ -56,7 +57,7 @@ public class createFlight {
 
         } catch (NumberFormatException | ParseException e) {
             JOptionPane.showMessageDialog(null, "Error al intentar agregar un vuelo: " + e.getMessage());
-            return; // Salir del método si hay un error
+            return; // Salir del metodo si hay un error
         }
         actualFlight.add(newFlight);
         actualData.setFlights(actualFlight);
@@ -141,8 +142,7 @@ public class createFlight {
         List<Aerolinea> actualAirlines = actualData.getAirlines();
         for(Aerolinea aerolineaActual : actualAirlines){
             if(aerolineaActual.getAirlineName().equals(airline)){
-                    
-                
+    
                     for(Tripulante tripulanteActual: actualCrewMembers){
                         if(tripulanteActual.getIdAirline() == aerolineaActual.getIdAirline() && tripulanteActual.getState() == 0){
                             if(rellenadoPiloto == false){
@@ -157,7 +157,6 @@ public class createFlight {
                             }
                             else if(rellenadoServicio == false){
                                 
-                            
                                 if(tripulanteActual.getRole().equals("Servicio al Cliente")){
                                     if(Tripulantes[1] == 0){
                                         Tripulantes[1] = tripulanteActual.getIdCrewmember();
@@ -169,12 +168,12 @@ public class createFlight {
                             }
                         }
                     }
-                
-                
+                  
             }
         }
         return Tripulantes;
     }
+    
     public int getDuration(Date departureDate, Date departureHour, Date arrivalDate, Date arrivalHour) {
 
         // Convertir Date a LocalDateTime para calculos precisos

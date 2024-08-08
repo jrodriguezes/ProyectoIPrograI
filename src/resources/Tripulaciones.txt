@@ -14,10 +14,10 @@
 567432109,Jennifer Walker,461,Piloto,0
 678543210,Charles Allen,461,Servicio al Cliente,1
 789654321,Mary Young,461,Servicio al Cliente,0
-890765432,Christopher King,503,Piloto,0
-901876543,Margaret Wright,503,Piloto,0
-123987654,Daniel Scott,503,Servicio al Cliente,0
-234098765,Rebecca Green,503,Servicio al Cliente,0
+890765432,Christopher King,503,Piloto,1
+901876543,Margaret Wright,503,Piloto,1
+123987654,Daniel Scott,503,Servicio al Cliente,1
+234098765,Rebecca Green,503,Servicio al Cliente,1
 345109876,Matthew Adams,714,Piloto,1
 456210987,Ashley Baker,714,Piloto,1
 567321098,Paul Gonzalez,714,Servicio al Cliente,1

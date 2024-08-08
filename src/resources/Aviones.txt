@@ -6,8 +6,8 @@
 606,Airbus A319,289,1
 707,Boeing 737 MAX,461,1
 808,Airbus A220,461,0
-909,Boeing 777,503,0
-110,Airbus A380,503,0
+909,Boeing 777,503,1
+110,Airbus A380,503,1
 211,Boeing 747,714,1
 312,Airbus A350,714,1
 413,Boeing 767,825,1

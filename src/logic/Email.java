@@ -9,7 +9,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailLogic {
+public class Email {
 
     public static void emailLogic(String to, String subject, String body) {
         // Datos obtenidos del servidor SMTP para configurar el envío de correo 

@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -41,11 +40,11 @@ public class Data {
     public static void escribirArchivo(String rutaArchivo, List<String> datos) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
             for (String cadena : datos) {
-                // Reemplazar `\n` en la cadena con una nueva línea para dividir los registros
+                // Reemplazar `\n` en la cadena con una nueva linea para dividir los registros
                 String[] registros = cadena.split("\\n");
                 for (String registro : registros) {
                     writer.write(registro);  // Escribe cada registro en el archivo
-                    writer.newLine();        // Agrega una nueva línea después de cada registro
+                    writer.newLine();        // Agrega una nueva linea despues de cada registro
                 }
             }
         } catch (IOException e) {
@@ -179,7 +178,36 @@ public class Data {
                     }
                 }
                 return vuelos;
+            case "historial":
+                List<Historial> historiales = new ArrayList<>();
+                SimpleDateFormat dateFormatRealTime = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
 
+                for (String[] lineaDato : datos) {
+                    if (lineaDato.length >= 10) {
+                        try {
+                            Historial actualHistory = new Historial();
+                            actualHistory.setIdHistorial(Integer.parseInt(lineaDato[0].trim()));
+                            actualHistory.setIdPassenger(Integer.parseInt(lineaDato[1].trim()));
+                            actualHistory.setIdDepartureAirport(Integer.parseInt(lineaDato[2].trim()));
+                            actualHistory.setIdArrivalAirport(Integer.parseInt(lineaDato[3].trim()));
+                            actualHistory.setIdStopoverAirport(Integer.parseInt(lineaDato[4].trim()));
+                            actualHistory.setRealTimeFlightBought(dateFormatRealTime.parse(lineaDato[5].trim()));
+                            actualHistory.setAmountOfTickets(Integer.parseInt(lineaDato[6].trim()));
+                            actualHistory.setSeats((lineaDato[7].trim()));
+                            actualHistory.setTotalDuration(Integer.parseInt(lineaDato[8].trim()));
+                            actualHistory.setTotalCost(Integer.parseInt(lineaDato[9].trim()));
+
+                            historiales.add(actualHistory);
+
+                        } catch (NumberFormatException | ParseException e) {
+                            System.err.println("Error al parsear la línea: " + Arrays.toString(lineaDato));
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.err.println("Registro de vuelo incompleto: " + Arrays.toString(lineaDato));
+                    }
+                }
+                return historiales;
             default:
                 System.out.println("Tipo de archivo desconocido: " + tipo);
                 return new ArrayList<>();

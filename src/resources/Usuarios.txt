@@ -1,8 +1,2 @@
 123456789,Juan Villalobos,19,juanca100,jcvch2005@gmail.com,1
-987654321,Popo,19,popo100,popo@gmail.com,0
-452324,Ingrese su nombre,0,********,Ingrese su correo,0
-43242,Ingrese su nombre,18,********,Ingrese su correo,0
-543,Ingrese su nombre,18,********,Ingrese su correo,0
-432,jeremy,18,gdsfsd,fdsgsdf,0
-208790566,jeremy,18,12,rd,0
-208780414,Joseph ,18,penelope,gdfdfgdfgdgd,0
+9,jeremy,18,1,rodriguezjeremyinfj@gmail.com,0

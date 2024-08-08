@@ -10,15 +10,17 @@ import objects.Vuelo;
 import objects.Usuario;
 import data.Data;
 import java.util.ArrayList;
+import objects.Historial;
 
 public class actualData {
-
+    
     private List<Aerolinea> airlines;
     private List<Aeropuerto> airports;
     private List<Avion> planes;
     private List<Tripulante> crewMembers;
     private List<Vuelo> flights;
     private List<Usuario> passengers;
+    private List<Historial> history;
 
     // Constructor para cargar todos los datos al inicializar la clase
     public actualData() {
@@ -29,6 +31,7 @@ public class actualData {
         loadFlights();
         loadPassengers();
         loadFlights();
+        loadFlightHistory();
     }
 
     // Métodos para cargar datos desde archivos
@@ -40,7 +43,7 @@ public class actualData {
             e.printStackTrace();
         }
     }
-
+    
     private void loadAirports() {
         try {
             List<String[]> datosArchivo = Data.leerArchivo("src/resources/Aeropuertos.txt", ",");
@@ -49,7 +52,7 @@ public class actualData {
             e.printStackTrace();
         }
     }
-
+    
     private void loadPlanes() {
         try {
             List<String[]> datosArchivo = Data.leerArchivo("src/resources/Aviones.txt", ",");
@@ -58,7 +61,7 @@ public class actualData {
             e.printStackTrace();
         }
     }
-
+    
     private void loadCrewMembers() {
         try {
             List<String[]> datosArchivo = Data.leerArchivo("src/resources/Tripulaciones.txt", ",");
@@ -67,7 +70,7 @@ public class actualData {
             e.printStackTrace();
         }
     }
-
+    
     private void loadFlights() {
         try {
             List<String[]> datosArchivo = Data.leerArchivo("src/resources/Vuelos.txt", ",");
@@ -76,11 +79,20 @@ public class actualData {
             e.printStackTrace();
         }
     }
-
+    
     private void loadPassengers() {
         try {
             List<String[]> datosArchivo = Data.leerArchivo("src/resources/Usuarios.txt", ",");
             this.passengers = (List<Usuario>) Data.procesarDatos(datosArchivo, "usuarios");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void loadFlightHistory() {
+        try {
+            List<String[]> datosArchivo = Data.leerArchivo("src/resources/Historial.txt", ",");
+            this.history = (List<Historial>) Data.procesarDatos(datosArchivo, "historial");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,36 +102,64 @@ public class actualData {
     public List<Aerolinea> getAirlines() {
         return airlines;
     }
-
+    
     public List<Aeropuerto> getAirports() {
         return airports;
     }
-
+    
     public List<Avion> getPlanes() {
         return planes;
     }
-
+    
     public List<Tripulante> getCrewMembers() {
         return crewMembers;
     }
-
+    
     public List<Vuelo> getFlights() {
         return flights;
     }
-
+    
     public List<Usuario> getPassengers() {
         return passengers;
     }
-
+    
+    public List<Historial> getFlightHistory() {
+        return history;
+    }
+    
     void setPassengers(List<Usuario> passengers) {
         this.passengers = passengers;
         List<String> passengersToString = new ArrayList<>();
         for (Usuario usuarioActual : passengers) {
-            passengersToString.add(String.valueOf(usuarioActual.getIdUser()) + "," + usuarioActual.getUserName() + "," + String.valueOf(usuarioActual.getUserAge()) + "," + String.valueOf(usuarioActual.getUserPassword()) + "," + usuarioActual.getUserMail() + "," + String.valueOf(usuarioActual.getType()) + "\n");
+            passengersToString.add(String.valueOf(usuarioActual.getIdUser()) + ","
+                    + usuarioActual.getUserName() + ","
+                    + String.valueOf(usuarioActual.getUserAge()) + ","
+                    + String.valueOf(usuarioActual.getUserPassword()) + ","
+                    + usuarioActual.getUserMail() + ","
+                    + String.valueOf(usuarioActual.getType()) + "\n");
         }
         Data.escribirArchivo("src/resources/Usuarios.txt", passengersToString);
     }
-
+    
+    void setFlightHistory(List<Historial> historiales) {
+        this.history = historiales;
+        List<String> flightHistoryToString = new ArrayList<>();
+        
+        for (Historial historialActual : historiales) {
+            flightHistoryToString.add(String.valueOf(historialActual.getIdHistorial()) + ","
+                    + String.valueOf(historialActual.getIdPassenger()) + ","
+                    + String.valueOf(historialActual.getIdDepartureAirport()) + ","
+                    + String.valueOf(historialActual.getIdArrivalAirport()) + ","
+                    + String.valueOf(historialActual.getIdStopoverAirport()) + ","
+                    + historialActual.getRealTimeFlightBought() + ","
+                    + String.valueOf(historialActual.getAmountOfTickets()) + ","
+                    + historialActual.getSeats() + ","
+                    + String.valueOf(historialActual.getTotalDuration()) + ","
+                    + String.valueOf(historialActual.getTotalCost()));
+        }
+        Data.escribirArchivo("src/resources/Historial.txt", flightHistoryToString);
+    }
+    
     void setFlights(List<Vuelo> flights) {
         this.flights = flights;
         List<String> flightToString = new ArrayList<>();
@@ -136,7 +176,7 @@ public class actualData {
                     + actualFlight.getFlightDuration() + ","
                     + actualFlight.getIdPlane() + ","
                     + actualFlight.getIdPilot() + ","
-                    + actualFlight.getIdService()+ "\n");
+                    + actualFlight.getIdService() + "\n");
         }
         Data.escribirArchivo("src/resources/Vuelos.txt", flightToString);
     }
@@ -146,10 +186,10 @@ public class actualData {
         List<String> crewMemberstToString = new ArrayList<>();
         for (Tripulante actualCrewMember : crewMembers) {
             crewMemberstToString.add(String.valueOf(actualCrewMember.getIdCrewmember()) + ","
-                    + actualCrewMember.getMemberName()+ ","
-                    + actualCrewMember.getIdAirline()+ ","
-                    + actualCrewMember.getRole()+ ","
-                    + actualCrewMember.getState()+ "\n");
+                    + actualCrewMember.getMemberName() + ","
+                    + actualCrewMember.getIdAirline() + ","
+                    + actualCrewMember.getRole() + ","
+                    + actualCrewMember.getState() + "\n");
         }
         Data.escribirArchivo("src/resources/Tripulaciones.txt", crewMemberstToString);
     }
