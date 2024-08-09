@@ -227,10 +227,10 @@ public class FlightSearch extends javax.swing.JDialog {
             historial[1] = String.valueOf(userId); // id cliente
             historial[2] = String.valueOf(idDepartureAirport); // aeropuerto salida
             historial[3] = String.valueOf(idArrivalAirport); // aeropuerto llegada
-            historial[4] = String.valueOf(31); // escala necesita ser implementada
+            historial[4] = String.valueOf(31); // escala necesita ser implementada //
             historial[5] = actualDate.format(actualDateTime);  // fecha y hora de compra
             historial[6] = String.valueOf(quantityTickets); // cantidas personas
-            historial[7] = "A1"; // asientos necesita ser implementada
+            historial[7] = "A1"; // asientos necesita ser implementada //
             historial[8] = String.valueOf(duracion); // duracion total
             historial[9] = String.valueOf(preciosTotales); // precio total
 

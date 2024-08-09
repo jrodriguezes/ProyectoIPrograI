@@ -30,7 +30,7 @@ public class LogIn extends javax.swing.JDialog {
         loadExitImage();
         parent.jMenuItem1.setVisible(false);
         parent.jMenuItem2.setVisible(false);
-        parent.jMenuItem3.setVisible(false);
+        parent.MenuReportes.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -117,7 +117,7 @@ public class LogIn extends javax.swing.JDialog {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         parent.jMenuItem1.setVisible(false);
         parent.jMenuItem2.setVisible(false);
-        parent.jMenuItem3.setVisible(false);
+        parent.MenuReportes.setVisible(false);
         logIn login = new logIn();
         validations validationS = new validations();
 
@@ -133,7 +133,7 @@ public class LogIn extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Usted es admin", "Información", JOptionPane.INFORMATION_MESSAGE);
                 parent.jMenuItem1.setVisible(true);
                 parent.jMenuItem2.setVisible(false);
-                parent.jMenuItem3.setVisible(true);
+                parent.MenuReportes.setVisible(true);
                 parent.jMenuItemLogout.setVisible(true); 
                 parent.setUserId(idPassenger);
                 parent.setLogged(1);

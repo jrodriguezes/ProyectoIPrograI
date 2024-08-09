@@ -8,6 +8,10 @@ import javax.swing.event.MenuListener;
 public class JFramePrincipal extends javax.swing.JFrame {
 
     public javax.swing.JMenuItem jMenuItemLogout;
+    public javax.swing.JMenu MenuReportes;
+    public javax.swing.JMenuItem Reporte1;
+    public javax.swing.JMenuItem Reporte2;
+    public javax.swing.JMenuItem Reporte3;
     private int logged = 0;
     private int userId;
 
@@ -36,10 +40,13 @@ public class JFramePrincipal extends javax.swing.JFrame {
         InicioSesion = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemLogout = new javax.swing.JMenuItem();
+        MenuReportes = new javax.swing.JMenu();
+        Reporte1 = new javax.swing.JMenuItem();
+        Reporte2 = new javax.swing.JMenuItem();
+        Reporte3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,9 +111,34 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 openFlightSearch();
             }
         });
+        // Submenu reportes
+        MenuReportes.setText("Reportes");
+        InicioSesion.add(MenuReportes);
 
-        jMenuItem3.setText("Reportes");
-        InicioSesion.add(jMenuItem3);
+        
+        Reporte1.setText("Reporte 1");
+        MenuReportes.add(Reporte1);
+        Reporte1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openReport1();
+            }
+        });
+
+        Reporte2.setText("Reporte 2");
+        MenuReportes.add(Reporte2);
+        Reporte2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openReport2();
+            }
+        });
+
+        Reporte3.setText("Reporte 3");
+        MenuReportes.add(Reporte3);
+        Reporte3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openReport3();
+            }
+        });
 
         jMenuBar2.add(InicioSesion);
 
@@ -156,6 +188,21 @@ public class JFramePrincipal extends javax.swing.JFrame {
         flightCreator.setVisible(true);
     }
 
+    private void openReport1() {
+        Report1 windowReport1 = new Report1(this, true);
+        windowReport1.setVisible(true);
+    }
+
+    private void openReport2() {
+        Report2 windowReport1 = new Report2(this, true);
+        windowReport1.setVisible(true);
+    }
+
+    private void openReport3() {
+        Report3 windowReport1 = new Report3(this, true);
+        windowReport1.setVisible(true);
+    }
+
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {
         // Reset the logged status
         logged = 0;
@@ -163,7 +210,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         // Hide all menu items that should be hidden after logout
         jMenuItem1.setVisible(false);
         jMenuItem2.setVisible(false);
-        jMenuItem3.setVisible(false);
+        MenuReportes.setVisible(false);
         jMenuItemLogout.setVisible(false);
 
         // Show the login dialog
@@ -202,6 +249,6 @@ public class JFramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     javax.swing.JMenuItem jMenuItem1;
     javax.swing.JMenuItem jMenuItem2;
-    javax.swing.JMenuItem jMenuItem3;
+
     // End of variables declaration                   
 }
