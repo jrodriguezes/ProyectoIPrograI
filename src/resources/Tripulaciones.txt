@@ -38,21 +38,21 @@
 234876543,Mary Rogers,204,Piloto,0
 345987654,Jason Reed,204,Servicio al Cliente,0
 456098765,Margaret Cook,204,Servicio al Cliente,0
-567109876,Jeffrey Bell,355,Piloto,0
-678210987,Stephanie Murphy,355,Piloto,0
-789321098,Richard Bailey,355,Servicio al Cliente,0
-890432109,Susan Rivera,355,Servicio al Cliente,0
-901543210,Andrew Cooper,476,Piloto,0
-123654321,Laura Richardson,476,Piloto,0
-234765432,Joshua Cox,476,Servicio al Cliente,0
-345876543,Amy Howard,476,Servicio al Cliente,0
-456987654,Raymond Ward,592,Piloto,0
-567098765,Karen Watson,592,Piloto,0
-678109876,Gregory Brooks,592,Servicio al Cliente,0
-789210987,Dorothy Gray,592,Servicio al Cliente,0
-890321098,Shirley Bennett,738,Piloto,0
+567109876,Jeffrey Bell,355,Piloto,1
+678210987,Stephanie Murphy,355,Piloto,1
+789321098,Richard Bailey,355,Servicio al Cliente,1
+890432109,Susan Rivera,355,Servicio al Cliente,1
+901543210,Andrew Cooper,476,Piloto,1
+123654321,Laura Richardson,476,Piloto,1
+234765432,Joshua Cox,476,Servicio al Cliente,1
+345876543,Amy Howard,476,Servicio al Cliente,1
+456987654,Raymond Ward,592,Piloto,1
+567098765,Karen Watson,592,Piloto,1
+678109876,Gregory Brooks,592,Servicio al Cliente,1
+789210987,Dorothy Gray,592,Servicio al Cliente,1
+890321098,Shirley Bennett,738,Piloto,1
 901432109,Frank Sanders,738,Piloto,0
-123543210,Janet Ross,738,Servicio al Cliente,0
+123543210,Janet Ross,738,Servicio al Cliente,1
 234654321,Scott Henderson,738,Servicio al Cliente,0
 345765432,Wayne Peterson,859,Piloto,1
 456876543,Rachel Simmons,859,Piloto,1

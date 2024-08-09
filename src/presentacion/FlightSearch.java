@@ -259,6 +259,7 @@ public class FlightSearch extends javax.swing.JDialog {
         List<Aerolinea> actualAirlines = dataActual.getAirlines();
         int id1 = 0;
         int id2 = 0;
+        int id3 = 0;
 
         String departureAirport = String.valueOf(jcbOrigen.getSelectedItem());
         String arrivalAirport = String.valueOf(jcbDestino.getSelectedItem());
@@ -278,17 +279,34 @@ public class FlightSearch extends javax.swing.JDialog {
                 filteredFlights.add(actualFlight);//lista filtrada para los vuelos que cumplen los parametros
                 System.out.println(datechooserFechaSalida.getSelectedDate());
             }
+            else if(actualFlight.getIdDepartureAirport() == id1 && actualFlight.getIdArrivalAirport() != id2){
+                for(Vuelo actualFlight2: actualFlights){
+                    if(actualFlight2.getIdArrivalAirport() == id2 && actualFlight2.getIdDepartureAirport() == actualFlight.getIdArrivalAirport()){
+                        id3 = actualFlight2.getIdDepartureAirport();
+                        filteredFlights.add(actualFlight);
+                        filteredFlights.add(actualFlight2);
+                    }
+                }
+            }
+            
+                
+                
+            
         }
         model.setRowCount(0);
-        showFlights(filteredFlights, dataActual);
+        showFlights(filteredFlights, dataActual, id3);
 
     }
 
-    private void showFlights(List<Vuelo> filteredFlights, actualData dataActual) {
-        for (Vuelo actualFlight : filteredFlights) {
-            String nombre = "";
+    private void showFlights(List<Vuelo> filteredFlights, actualData dataActual, int id3){
+        String nombre = "";
             String aeropuerto1 = "";
             String aeropuerto2 = "";
+            String aeropuertoEscala = "";
+            System.out.println(id3);
+        if(id3 == 0){
+            for (Vuelo actualFlight : filteredFlights) {
+            
 
             for (Aerolinea airline : dataActual.getAirlines()) {
                 if (actualFlight.getIdAirline() == airline.getIdAirline()) {
@@ -307,18 +325,60 @@ public class FlightSearch extends javax.swing.JDialog {
             }
             int passengers = (Integer) spinnerPassengers.getValue();
             int passengersMultipliedPrice = actualFlight.getFlightPrice() * passengers;
-
+            System.out.println("no se ejecuta la escala");
             model.addRow(new Object[]{
                 nombre,
                 aeropuerto1,
                 aeropuerto2,
-                "escalaImplementar",
+                "",
                 actualFlight.getDepartureHour(),
                 actualFlight.getArrivalHour(),
                 actualFlight.getFlightDuration(),
                 passengersMultipliedPrice
             });
         }
+        }
+        else{
+            
+            for (int i = 0; i < filteredFlights.size() - 1; i += 2) {
+            Vuelo flight1 = filteredFlights.get(i);
+            Vuelo flight2 = filteredFlights.get(i + 1);
+            int passengers = (Integer) spinnerPassengers.getValue();
+            int passengersMultipliedPrice = (flight1.getFlightPrice() + flight2.getFlightPrice()) * passengers;
+            for (Aerolinea airline : dataActual.getAirlines()) {
+                if (flight1.getIdAirline() == airline.getIdAirline()) {
+                    nombre = airline.getAirlineName();
+                }
+            }
+            for (Aeropuerto airport : dataActual.getAirports()) {
+                if (flight1.getIdDepartureAirport() == airport.getIdAirport()) {
+                    aeropuerto1 = airport.getAirportName();
+                }
+                else if(flight1.getIdArrivalAirport() == airport.getIdAirport() && flight2.getIdDepartureAirport() == airport.getIdAirport()){
+                    aeropuertoEscala = airport.getAirportName();
+                }
+            }
+            for (Aeropuerto airport : dataActual.getAirports()) {
+                if(flight2.getIdArrivalAirport()== airport.getIdAirport()){
+                    aeropuerto2 = airport.getAirportName();
+                }
+                
+            }
+            System.out.println(aeropuertoEscala +"se ejecuta la escala");
+            // Crear un nuevo registro con datos seleccionados de ambos objetos
+           model.addRow(new Object[]{
+                nombre,
+                aeropuerto1,
+                aeropuerto2,
+                aeropuertoEscala,
+                flight1.getDepartureHour(),
+                flight2.getArrivalHour(),
+                flight1.getFlightDuration()+flight2.getFlightDuration(),
+                passengersMultipliedPrice
+            });
+        }
+        }
+        
     }
 
     private void cargarImagen() {
