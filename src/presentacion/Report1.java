@@ -53,7 +53,7 @@ public class Report1 extends javax.swing.JDialog {
 
         model = new DefaultTableModel(new Object[][]{}, new String[]{
             "Cedula", "Nombre", "Aeropuerto Salida",
-            "Escala", "Aeropuerto Llegada", "Fecha y Hora de Compra"
+            "Escala", "Aeropuerto Llegada", "Fecha-Hora de Compra"
         });
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
@@ -145,8 +145,8 @@ public class Report1 extends javax.swing.JDialog {
         Date inicialDate = (Date) datechooserFechaInicio.getSelectedDate().getTime();
         Date finalDate = (Date) datechooserFechaFin.getSelectedDate().getTime();
 
+        model.setRowCount(0);
         showHistoryInformation(inicialDate, finalDate);
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     public void showHistoryInformation(Date datechooserFechaInicio, Date datechooserFechaFin) {
@@ -156,6 +156,7 @@ public class Report1 extends javax.swing.JDialog {
         List<Historial> flightHistory = actualData.getFlightHistory();
 
         for (Historial historialActual : flightHistory) {
+
             Date fechaCompra = historialActual.getRealTimeFlightBought();
             if (fechaCompra.after(datechooserFechaInicio) || fechaCompra.equals(datechooserFechaInicio) && fechaCompra.before(datechooserFechaFin) || fechaCompra.equals(datechooserFechaFin)) {
 
@@ -178,7 +179,6 @@ public class Report1 extends javax.swing.JDialog {
                     nameClient,
                     departureAirportName,
                     "escalaImplementar",
-                    stopoverAirportName,
                     arrivalAirportName,
                     dateBought
                 });

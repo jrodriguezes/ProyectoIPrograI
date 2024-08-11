@@ -6,10 +6,13 @@ package logic;
 
 import java.util.Date;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+import objects.Aerolinea;
 import objects.Aeropuerto;
 import objects.Historial;
 import objects.Usuario;
+import objects.Vuelo;
 
 /**
  *
@@ -56,7 +59,8 @@ public class Reportes {
 //            }
 //        }
 //    }
-
+    
+    // Reporte 1
     public String getClientNameById(int id) {
         actualData actualData = new actualData();
 
@@ -76,10 +80,35 @@ public class Reportes {
         List<Aeropuerto> airportData = actualData.getAirports();
 
         for (Aeropuerto actualAirport : airportData) {
-            if (actualAirport.equals(id)) {
+            if (actualAirport.getIdAirport() == id) {
                 return actualAirport.getAirportName();
             }
         }
         return "Error al conseguir nombre del aeropuerto";
     }
+    
+    // Reporte 2
+    
+    public void loadAirline(JComboBox jcbAerolineas) {
+        actualData actualData = new actualData();
+        
+        List<Aerolinea> airlines = actualData.getAirlines();
+        
+        for (Aerolinea airline : airlines) {
+            jcbAerolineas.addItem(airline.getAirlineName());
+        }
+    }
+    
+    public String getCrewmateNameById(int id) {
+        actualData actualData = new actualData();
+        
+        List<Vuelo> flightData = actualData.getFlights();
+        for (Vuelo actualFlight : flightData) {
+            if (actualFlight.getIdPilot() == id) {
+//                return actualFlight.
+            }
+        }
+        return "error";
+    }
+    
 }
