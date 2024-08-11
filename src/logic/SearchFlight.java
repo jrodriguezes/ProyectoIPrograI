@@ -82,5 +82,9 @@ public class SearchFlight {
         String formattedDateTime = sdf.format(now);
         return formattedDateTime;
     }
+    
+    public void searchForScale(){
+        
+    }
 
 }
