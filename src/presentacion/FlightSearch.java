@@ -9,6 +9,7 @@ import java.awt.Window;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -253,6 +254,7 @@ public class FlightSearch extends javax.swing.JDialog {
     }
 
     private void filterFlights() {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         actualData dataActual = new actualData();
         List<Aeropuerto> actualAirports = dataActual.getAirports();
         List<Vuelo> actualFlights = dataActual.getFlights();
@@ -260,6 +262,7 @@ public class FlightSearch extends javax.swing.JDialog {
         int id1 = 0;
         int id2 = 0;
         int id3 = 0;
+        Date selectedDate;
 
         String departureAirport = String.valueOf(jcbOrigen.getSelectedItem());
         String arrivalAirport = String.valueOf(jcbDestino.getSelectedItem());
@@ -276,15 +279,20 @@ public class FlightSearch extends javax.swing.JDialog {
 
             }
             if (actualFlight.getIdDepartureAirport() == id1 && actualFlight.getIdArrivalAirport() == id2) {
-                filteredFlights.add(actualFlight);//lista filtrada para los vuelos que cumplen los parametros
-                System.out.println(datechooserFechaSalida.getSelectedDate());
+                Calendar calendar = datechooserFechaSalida.getSelectedDate();
+                selectedDate = calendar.getTime();
+                if(quitarHora(actualFlight.getDepartureDate()).equals(quitarHora(selectedDate))){
+                    filteredFlights.add(actualFlight);//lista filtrada para los vuelos que cumplen los parametros
+                }
             }
             else if(actualFlight.getIdDepartureAirport() == id1 && actualFlight.getIdArrivalAirport() != id2){
                 for(Vuelo actualFlight2: actualFlights){
                     if(actualFlight2.getIdArrivalAirport() == id2 && actualFlight2.getIdDepartureAirport() == actualFlight.getIdArrivalAirport()){
+                        if(actualFlight2.getDepartureDate().after(actualFlight.getArrivalDate()) && actualFlight2.getDepartureHour().after(actualFlight.getArrivalHour())){
                         id3 = actualFlight2.getIdDepartureAirport();
                         filteredFlights.add(actualFlight);
-                        filteredFlights.add(actualFlight2);
+                        filteredFlights.add(actualFlight2);    
+                        }
                     }
                 }
             }
@@ -297,8 +305,17 @@ public class FlightSearch extends javax.swing.JDialog {
         showFlights(filteredFlights, dataActual, id3);
 
     }
-
+    private static Date quitarHora(Date fecha) {
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(fecha);
+        calendario.set(Calendar.HOUR_OF_DAY, 0);
+        calendario.set(Calendar.MINUTE, 0);
+        calendario.set(Calendar.SECOND, 0);
+        calendario.set(Calendar.MILLISECOND, 0);
+        return calendario.getTime();
+    }
     private void showFlights(List<Vuelo> filteredFlights, actualData dataActual, int id3){
+        SimpleDateFormat formato12Horas = new SimpleDateFormat("hh:mm a");
         String nombre = "";
             String aeropuerto1 = "";
             String aeropuerto2 = "";
@@ -331,8 +348,8 @@ public class FlightSearch extends javax.swing.JDialog {
                 aeropuerto1,
                 aeropuerto2,
                 "",
-                actualFlight.getDepartureHour(),
-                actualFlight.getArrivalHour(),
+                formato12Horas.format(actualFlight.getDepartureHour()),
+                formato12Horas.format(actualFlight.getArrivalHour()),
                 actualFlight.getFlightDuration(),
                 passengersMultipliedPrice
             });
@@ -371,8 +388,8 @@ public class FlightSearch extends javax.swing.JDialog {
                 aeropuerto1,
                 aeropuerto2,
                 aeropuertoEscala,
-                flight1.getDepartureHour(),
-                flight2.getArrivalHour(),
+                formato12Horas.format(flight1.getDepartureHour()),
+                formato12Horas.format(flight2.getArrivalHour()),
                 flight1.getFlightDuration()+flight2.getFlightDuration(),
                 passengersMultipliedPrice
             });
