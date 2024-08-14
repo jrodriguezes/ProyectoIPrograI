@@ -288,10 +288,12 @@ public class FlightSearch extends javax.swing.JDialog {
             else if(actualFlight.getIdDepartureAirport() == id1 && actualFlight.getIdArrivalAirport() != id2){
                 for(Vuelo actualFlight2: actualFlights){
                     if(actualFlight2.getIdArrivalAirport() == id2 && actualFlight2.getIdDepartureAirport() == actualFlight.getIdArrivalAirport()){
-                        if(actualFlight2.getDepartureDate().after(actualFlight.getArrivalDate()) && actualFlight2.getDepartureHour().after(actualFlight.getArrivalHour())){
+                        System.out.println("se hace comprobacion");
+                        if(actualFlight.getArrivalDate().after(actualFlight2.getDepartureDate()) || actualFlight.getArrivalDate().equals(actualFlight2.getDepartureDate()) && actualFlight2.getDepartureHour().after(actualFlight.getArrivalHour())){
                         id3 = actualFlight2.getIdDepartureAirport();
                         filteredFlights.add(actualFlight);
                         filteredFlights.add(actualFlight2);    
+                        
                         }
                     }
                 }
