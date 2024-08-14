@@ -71,6 +71,7 @@ public class SearchFlight {
         }
         return -2;
     }
+    
 
     public String generateActualDate() {
         Date now = new Date();

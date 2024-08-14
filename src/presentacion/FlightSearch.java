@@ -224,7 +224,6 @@ public class FlightSearch extends javax.swing.JDialog {
             int idArrivalAirport = searchFlight.getAirportIdByName(aeropuertoLlegada);
             int quantityTickets = (Integer) spinnerPassengers.getValue();
             Date actualDateTime = new Date();
-
             String[] historial = new String[10];
             historial[0] = String.valueOf(uniqueId);
             historial[1] = String.valueOf(userId); //usuario necesita ser implementada
@@ -238,6 +237,8 @@ public class FlightSearch extends javax.swing.JDialog {
             historial[9] = String.valueOf(preciosTotales);
 
             searchFlight.addHistory(historial);
+            dialogSeats actualDialogSeats = new dialogSeats(this, true);
+            actualDialogSeats.editCells(idDepartureAirport, idArrivalAirport, 0);
         });
 
         // Panel que se muestra
