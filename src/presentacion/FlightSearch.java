@@ -269,6 +269,8 @@ public class FlightSearch extends javax.swing.JDialog {
             }
             dialogSeats actualDialogSeats = new dialogSeats(this, true);
             actualDialogSeats.editCells(Integer.parseInt(idVuelo), Integer.parseInt(idScale));
+            actualDialogSeats.setVisible(true);
+            actualDialogSeats.pack();
         });
 
         // Panel que se muestra

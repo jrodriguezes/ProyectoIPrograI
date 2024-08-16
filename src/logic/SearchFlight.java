@@ -99,69 +99,7 @@ public class SearchFlight {
            
        }
        
-       /*for(String seat: seats){
-           
-           int coordenadaX;
-           int coordenadaY;
-           switch (seat.charAt(0)) {   
-               case 'A':
-                    coordenadaX = 0;
-                    break;
-                case 'B':
-                    coordenadaX = 1;
-                    break;
-                case 'C':
-                    coordenadaX = 2;
-                    break;
-                case 'D':
-                    coordenadaX = 3;
-                    break;
-                case 'E':
-                    coordenadaX = 4;
-                    break;
-                case 'F':
-                    coordenadaX = 5;
-                    break;
-                default:
-                    coordenadaX = -1; // In case of an unexpected character
-            }
-    
-                        // Determine the row based on the second character
-            switch (seat.charAt(1)) {
-                case '1':
-                    coordenadaY = 0;
-                    break;
-                case '2':
-                    coordenadaY = 1;
-                    break;
-                case '3':
-                    coordenadaY = 2;
-                    break;
-                case '4':
-                    coordenadaY = 3;
-                    break;
-                case '5':
-                    coordenadaY = 4;
-                    break;
-                case '6':
-                    coordenadaY = 5;
-                    break;
-                default:
-                    coordenadaY = -1; // In case of an unexpected character
-            }
-            matriz[coordenadaX][coordenadaY] = 1;
-       }
-       for (int i = 0; i < matriz.length; i++) { // Bucle para las filas
-            for (int j = 0; j < matriz[i].length; j++) { // Bucle para las columnas
-                if(matriz[i][j] == 1){
-                    
-                }
-                else{
-                    matriz[i][j]= 0;
-                }    
-            }
-            
-       }*/
+       
         asignarAsientosAMatriz(seats, matriz);
         rellenarMatriz(matriz2);
         if(id2 != 0){
@@ -382,3 +320,66 @@ private void rellenarMatriz(int[][] matriz) {
     }
 
 }
+/*for(String seat: seats){
+           
+           int coordenadaX;
+           int coordenadaY;
+           switch (seat.charAt(0)) {   
+               case 'A':
+                    coordenadaX = 0;
+                    break;
+                case 'B':
+                    coordenadaX = 1;
+                    break;
+                case 'C':
+                    coordenadaX = 2;
+                    break;
+                case 'D':
+                    coordenadaX = 3;
+                    break;
+                case 'E':
+                    coordenadaX = 4;
+                    break;
+                case 'F':
+                    coordenadaX = 5;
+                    break;
+                default:
+                    coordenadaX = -1; // In case of an unexpected character
+            }
+    
+                        // Determine the row based on the second character
+            switch (seat.charAt(1)) {
+                case '1':
+                    coordenadaY = 0;
+                    break;
+                case '2':
+                    coordenadaY = 1;
+                    break;
+                case '3':
+                    coordenadaY = 2;
+                    break;
+                case '4':
+                    coordenadaY = 3;
+                    break;
+                case '5':
+                    coordenadaY = 4;
+                    break;
+                case '6':
+                    coordenadaY = 5;
+                    break;
+                default:
+                    coordenadaY = -1; // In case of an unexpected character
+            }
+            matriz[coordenadaX][coordenadaY] = 1;
+       }
+       for (int i = 0; i < matriz.length; i++) { // Bucle para las filas
+            for (int j = 0; j < matriz[i].length; j++) { // Bucle para las columnas
+                if(matriz[i][j] == 1){
+                    
+                }
+                else{
+                    matriz[i][j]= 0;
+                }    
+            }
+            
+       }*/

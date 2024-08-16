@@ -6,6 +6,7 @@ package presentacion;
 import java.awt.Component;
 import java.util.List;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -53,7 +54,7 @@ public class dialogSeats extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "A", "B", "C", "D", "E", "F"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -66,7 +67,7 @@ public class dialogSeats extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "A", "B", "C", "D", "E", "F"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
@@ -75,24 +76,21 @@ public class dialogSeats extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(411, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(118, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(281, 281, 281))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -100,113 +98,56 @@ public class dialogSeats extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     public void editCells(int id1, int id2) {
-        jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            actualData actualData = new actualData();
-            List<Historial> actualHistories = actualData.getFlightHistory();
-            int actualRow;
-            int actualColumn;
-            String seats = "";
-    
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                           boolean hasFocus, int row, int column) {
-                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-    
-                seats = "";  // Reiniciar la variable seats en cada llamada
-    
-                int i = 0;
-                for (Historial actualHistory : actualHistories) {
-                    i++;
-                    if (actualHistory.getIdFlight() == id1 && actualHistory.getIdScale() == id2){
-    
-                        seats = seats + actualHistory.getSeats() + ",";
+        int[][] matriz = new int[6][6];
+        actualData dataActual = new actualData();
+        List<Historial> histories = dataActual.getFlightHistory();
+        for(Historial ticketActual:histories){
+            if(ticketActual.getIdFlight() == id1 && ticketActual.getIdScale() == id2){
+                String actualSeats[] = ticketActual.getSeats().split("-");
+                for (int i = 0; i < actualSeats.length; i++) {
+                    // Verificar si es el último elemento
+                    if (i == actualSeats.length - 1) {
+                        
+                    } else {
+                        
                     }
-                }
-    
-                // Split the seats string to get individual seat records
-                String[] records = seats.split(",");
-    
-                // Iterate over the records to match the cell
-                for (String record : records) {
-                    if (!record.isEmpty()) {  // Ignore empty records
-                        // Determine the column based on the first character
-                        switch (record.charAt(0)) {
-                            case 'A':
-                                actualColumn = 0;
-                                break;
-                            case 'B':
-                                actualColumn = 1;
-                                break;
-                            case 'C':
-                                actualColumn = 2;
-                                break;
-                            case 'D':
-                                actualColumn = 3;
-                                break;
-                            case 'E':
-                                actualColumn = 4;
-                                break;
-                            case 'F':
-                                actualColumn = 5;
-                                break;
-                            default:
-                                actualColumn = -1; // In case of an unexpected character
-                        }
-    
-                        // Determine the row based on the second character
-                        switch (record.charAt(1)) {
-                            case '1':
-                                actualRow = 0;
-                                break;
-                            case '2':
-                                actualRow = 1;
-                                break;
-                            case '3':
-                                actualRow = 2;
-                                break;
-                            case '4':
-                                actualRow = 3;
-                                break;
-                            case '5':
-                                actualRow = 4;
-                                break;
-                            case '6':
-                                actualRow = 5;
-                                break;
-                            default:
-                                actualRow = -1; // In case of an unexpected character
-                        }
-    
-                        // Apply the customization if the row and column match
-                        if (row == actualRow && column == actualColumn) {
-                            cell.setBackground(Color.GREEN);  // Change background color
-                            setToolTipText(String.valueOf(actualRow)+String.valueOf(actualColumn)); // Add a tooltip
-                        } else {
-                            // Reset the background for other cells
-                            cell.setBackground(Color.RED);
-                        }
-                    }
-                }
-    
-                return cell;
+}
             }
-        });
-    }
+            
+        }
+    jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                       boolean hasFocus, int row, int column) {
+            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if (matriz[row][column] == 1) {
+                cell.setBackground(Color.GREEN);  // Ocupado
+            } else if (matriz[row][column] == 2) {
+                cell.setBackground(Color.RED);  // Inhabilitado
+            } else {
+                cell.setBackground(Color.WHITE);  // Libre
+            }
+
+            return cell;
+        }
+    });
+}
 
     /**
      * @param args the command line arguments
