@@ -185,7 +185,7 @@ public class Data {
                 SimpleDateFormat alternativeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 for (String[] lineaDato : datos) {
-                    if (lineaDato.length >= 10) {
+                    if (lineaDato.length >= 12) {
                         try {
                             Historial actualHistory = new Historial();
                             validations validations = new validations();
@@ -201,12 +201,13 @@ public class Data {
                             }
 
                             actualHistory.setAmountOfTickets(Integer.parseInt(lineaDato[6].trim()));
-                            actualHistory.setSeats((lineaDato[7].trim()));
+                            actualHistory.setSeats(lineaDato[7].trim().replace("-", ","));
+                            
                             actualHistory.setTotalDuration(Integer.parseInt(lineaDato[8].trim()));
                             actualHistory.setTotalCost(Integer.parseInt(lineaDato[9].trim()));
                             actualHistory.setIdFlight(Integer.parseInt(lineaDato[10].trim()));
                             actualHistory.setIdScale(Integer.parseInt(lineaDato[11].trim()));
-
+                            System.out.println(actualHistory.getSeats());
                             historiales.add(actualHistory);
 
                         } catch (NumberFormatException e) {

@@ -361,7 +361,7 @@ private void rellenarMatriz(int[][] matriz) {
             int columna = coordenadas.get(i)[1] + 1;
             sb.append(fila).append(columna);
             if (i < coordenadas.size() - 1) {
-                sb.append(",");
+                sb.append("-");
             }
         }
         return sb.toString();
