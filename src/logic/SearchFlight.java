@@ -85,13 +85,13 @@ public class SearchFlight {
        List<String> seats2 = new ArrayList<>();
        for(Historial ticketActual: histories){
            if(ticketActual.getIdFlight() == id1){
-               String actualSeats[] = ticketActual.getSeats().split(",");
+               String actualSeats[] = ticketActual.getSeats().split("-");
                for(String seat: actualSeats){
                    seats.add(seat);
                }
            }
            else if(ticketActual.getIdFlight() == id2){
-               String actualSeats[] = ticketActual.getSeats().split(",");
+               String actualSeats[] = ticketActual.getSeats().split("-");
                for(String seat: actualSeats){
                    seats2.add(seat);
                }

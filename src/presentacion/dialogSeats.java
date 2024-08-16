@@ -114,7 +114,7 @@ public class dialogSeats extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void editCells(int idAirport1, int idAirport2, int idAirport3) {
+    public void editCells(int id1, int id2) {
         jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             actualData actualData = new actualData();
             List<Historial> actualHistories = actualData.getFlightHistory();
@@ -132,9 +132,7 @@ public class dialogSeats extends javax.swing.JDialog {
                 int i = 0;
                 for (Historial actualHistory : actualHistories) {
                     i++;
-                    if (actualHistory.getIdDepartureAirport() == idAirport1 &&
-                        actualHistory.getIdArrivalAirport() == idAirport2 &&
-                        actualHistory.getIdStopoverAirport() == idAirport3) {
+                    if (actualHistory.getIdFlight() == id1 && actualHistory.getIdScale() == id2){
     
                         seats = seats + actualHistory.getSeats() + ",";
                     }

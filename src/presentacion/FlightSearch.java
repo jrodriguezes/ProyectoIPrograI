@@ -255,10 +255,7 @@ public class FlightSearch extends javax.swing.JDialog {
             }
             else{  
                    
-                   historial[7] = asientos[0]; // asientos necesita ser implementada 
-                
-                
-                
+                   historial[7] = asientos[0]; // asientos necesita ser implementada               
             }
             
             historial[8] = String.valueOf(duracion);
@@ -266,12 +263,12 @@ public class FlightSearch extends javax.swing.JDialog {
             historial[10] = String.valueOf(idVuelo);
             historial[11] = String.valueOf(idScale);
             searchFlight.addHistory(historial);
-            if(asientos[1] != ""){
+            if(asientos[1] != null){
                 historial[7] = asientos[1];
                 searchFlight.addHistory(historial);
             }
             dialogSeats actualDialogSeats = new dialogSeats(this, true);
-            actualDialogSeats.editCells(idDepartureAirport, idArrivalAirport, 0);
+            actualDialogSeats.editCells(Integer.parseInt(idVuelo), Integer.parseInt(idScale));
         });
 
         // Panel que se muestra

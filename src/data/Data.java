@@ -201,7 +201,7 @@ public class Data {
                             }
 
                             actualHistory.setAmountOfTickets(Integer.parseInt(lineaDato[6].trim()));
-                            actualHistory.setSeats(lineaDato[7].trim().replace("-", ","));
+                            actualHistory.setSeats(lineaDato[7].trim());
                             
                             actualHistory.setTotalDuration(Integer.parseInt(lineaDato[8].trim()));
                             actualHistory.setTotalCost(Integer.parseInt(lineaDato[9].trim()));
