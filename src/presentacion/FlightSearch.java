@@ -21,6 +21,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 import logic.SearchFlight;
 import logic.actualData;
 import logic.createFlight;
@@ -96,7 +98,7 @@ public class FlightSearch extends javax.swing.JDialog {
 
         model = new DefaultTableModel(new Object[][]{}, new String[]{
             "Aerolinea", "Aeropuerto salida", "Aeropuerto llegada",
-            "Escala", "Hora salida", "Hora llegada", "Duracion", "Precios totales"
+            "Escala", "Hora salida", "Hora llegada", "Duracion", "Precios totales", "IdVuelo", "IdEscala"
         });
 
         // Llenar el modelo con datos de la lista de vuelos
@@ -113,6 +115,10 @@ public class FlightSearch extends javax.swing.JDialog {
                 }
             }
         });
+        TableColumn column = jTable1.getColumnModel().getColumn(9);
+        jTable1.getColumnModel().removeColumn(column);
+        TableColumn column2 = jTable1.getColumnModel().getColumn(8);
+        jTable1.getColumnModel().removeColumn(column2);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 980, 190));
@@ -167,6 +173,8 @@ public class FlightSearch extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void showFlightDetailsDialog(int selectedRow) {
+        Object idFlightObj;
+        Object idScaleObj;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 // Get values from table
@@ -180,6 +188,11 @@ public class FlightSearch extends javax.swing.JDialog {
         Object horaLlegadaObj = jTable1.getValueAt(selectedRow, 5);
         Object duracionObj = jTable1.getValueAt(selectedRow, 6);
         Object preciosTotalesObj = jTable1.getValueAt(selectedRow, 7);
+        
+        // Usa el modelo para obtener el valor de la columna "IdVuelo" y "IdEscala"
+        idFlightObj = jTable1.getModel().getValueAt(selectedRow, 8);
+        idScaleObj = jTable1.getModel().getValueAt(selectedRow, 9);
+        
 
 // Handle Date objects separately
         String horaSalida = horaSalidaObj instanceof Date ? dateFormat.format((Date) horaSalidaObj) : horaSalidaObj.toString();
@@ -188,6 +201,8 @@ public class FlightSearch extends javax.swing.JDialog {
 // Assuming duracionObj and preciosTotalesObj are not Date objects
         String duracion = duracionObj != null ? duracionObj.toString() : "N/A";
         String preciosTotales = preciosTotalesObj != null ? preciosTotalesObj.toString() : "N/A";
+        String idVuelo = idFlightObj != null ? idFlightObj.toString() : "N/A";
+        String idScale = idScaleObj != null ? idScaleObj.toString() : "N/A";
 
         JButton btnRegresar = new JButton("Regresar");
         JButton btnComprar = new JButton("Comprar");
@@ -203,7 +218,9 @@ public class FlightSearch extends javax.swing.JDialog {
                 + "Hora salida: " + horaSalida + "\n"
                 + "Hora llegada: " + horaLlegada + "\n"
                 + "Duracion: " + duracion + "\n"
-                + "Precios totales: " + preciosTotales;
+                + "Precios totales: " + preciosTotales + "\n"
+                + "Id de vuelo " + idVuelo + "\n"
+                + "Id de escala" + idScale;
 
 // Set up button actions
         btnRegresar.addActionListener(event -> {
@@ -224,19 +241,35 @@ public class FlightSearch extends javax.swing.JDialog {
             int idArrivalAirport = searchFlight.getAirportIdByName(aeropuertoLlegada);
             int quantityTickets = (Integer) spinnerPassengers.getValue();
             Date actualDateTime = new Date();
-            String[] historial = new String[10];
+            String[] historial = new String[12];
             historial[0] = String.valueOf(uniqueId);
             historial[1] = String.valueOf(userId); //usuario necesita ser implementada
             historial[2] = String.valueOf(idDepartureAirport);
             historial[3] = String.valueOf(idArrivalAirport);
-            historial[4] = String.valueOf(31); // escala necesita ser implementada
+            historial[4] = String.valueOf(idScale); // escala necesita ser implementada
             historial[5] = actualDate.format(actualDateTime);  // fecha y hora de compra
             historial[6] = String.valueOf(quantityTickets);
-            historial[7] = "A1"; // asientos necesita ser implementada
+            String[] asientos = searchFlight.generarMatriz(Integer.parseInt(idVuelo), Integer.parseInt(idScale), quantityTickets);
+            if(asientos[0].equals("")){
+                
+            }
+            else{  
+                   
+                   historial[7] = asientos[0]; // asientos necesita ser implementada 
+                
+                
+                
+            }
+            
             historial[8] = String.valueOf(duracion);
             historial[9] = String.valueOf(preciosTotales);
-
+            historial[10] = String.valueOf(idVuelo);
+            historial[11] = String.valueOf(idScale);
             searchFlight.addHistory(historial);
+            if(asientos[1] != ""){
+                historial[7] = asientos[1];
+                searchFlight.addHistory(historial);
+            }
             dialogSeats actualDialogSeats = new dialogSeats(this, true);
             actualDialogSeats.editCells(idDepartureAirport, idArrivalAirport, 0);
         });
@@ -354,7 +387,9 @@ public class FlightSearch extends javax.swing.JDialog {
                 formato12Horas.format(actualFlight.getDepartureHour()),
                 formato12Horas.format(actualFlight.getArrivalHour()),
                 actualFlight.getFlightDuration(),
-                passengersMultipliedPrice
+                passengersMultipliedPrice,
+                actualFlight.getIdFlight(),
+                0
             });
         }
         }
@@ -394,7 +429,9 @@ public class FlightSearch extends javax.swing.JDialog {
                 formato12Horas.format(flight1.getDepartureHour()),
                 formato12Horas.format(flight2.getArrivalHour()),
                 flight1.getFlightDuration()+flight2.getFlightDuration(),
-                passengersMultipliedPrice
+                passengersMultipliedPrice,
+                flight1.getIdFlight(),
+                flight2.getIdFlight()
             });
         }
         }

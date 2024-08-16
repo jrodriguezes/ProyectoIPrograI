@@ -204,6 +204,8 @@ public class Data {
                             actualHistory.setSeats((lineaDato[7].trim()));
                             actualHistory.setTotalDuration(Integer.parseInt(lineaDato[8].trim()));
                             actualHistory.setTotalCost(Integer.parseInt(lineaDato[9].trim()));
+                            actualHistory.setIdFlight(Integer.parseInt(lineaDato[10].trim()));
+                            actualHistory.setIdScale(Integer.parseInt(lineaDato[11].trim()));
 
                             historiales.add(actualHistory);
 

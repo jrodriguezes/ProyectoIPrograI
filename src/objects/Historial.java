@@ -22,6 +22,24 @@ public class Historial {
     private String seats;
     private int totalDuration;
     private int totalCost;
+    private int idFlight;
+    private int idScale;
+
+    public int getIdScale() {
+        return idScale;
+    }
+
+    public void setIdScale(int idScale) {
+        this.idScale = idScale;
+    }
+
+    public int getIdFlight() {
+        return idFlight;
+    }
+
+    public void setIdFlight(int idFlight) {
+        this.idFlight = idFlight;
+    }
 
     public int getIdHistorial() {
         return idHistorial;

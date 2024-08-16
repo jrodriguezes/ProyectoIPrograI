@@ -155,7 +155,10 @@ public class actualData {
                     + String.valueOf(historialActual.getAmountOfTickets()) + ","
                     + historialActual.getSeats() + ","
                     + String.valueOf(historialActual.getTotalDuration()) + ","
-                    + String.valueOf(historialActual.getTotalCost()));
+                    + String.valueOf(historialActual.getTotalCost()) + ","
+                    + String.valueOf(historialActual.getIdFlight()) + ","
+                    + String.valueOf(historialActual.getIdScale()));
+
         }
         Data.escribirArchivo("src/resources/Historial.txt", flightHistoryToString);
     }
