@@ -45,31 +45,15 @@ public class dialogSeats extends javax.swing.JDialog {
         jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        Object[][] data = new Object[6][6];  // Arreglo bidimensional de 6x6
+        String[] columnNames = {"A", "B", "C", "D", "E", "F"};  // Nombres de las columnas (opcional)
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "A", "B", "C", "D", "E", "F"
-            }
-        ));
+        // Crear el modelo de tabla con los datos y nombres de las columnas
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "A", "B", "C", "D", "E", "F"
-            }
-        ));
+        jTable2.setModel(model);
         jScrollPane2.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -113,22 +97,62 @@ public class dialogSeats extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     public void editCells(int id1, int id2) {
+        if(id2 == 0){
+            jTable2.setVisible(false);
+        }
         int[][] matriz = new int[6][6];
+        int[][] matriz2 = new int[6][6];
         actualData dataActual = new actualData();
         List<Historial> histories = dataActual.getFlightHistory();
         for(Historial ticketActual:histories){
-            if(ticketActual.getIdFlight() == id1 && ticketActual.getIdScale() == id2){
+            if(ticketActual.getIdFlight() == id1){
                 String actualSeats[] = ticketActual.getSeats().split("-");
                 for (int i = 0; i < actualSeats.length; i++) {
                     // Verificar si es el último elemento
                     if (i == actualSeats.length - 1) {
-                        
+                        asignarAsientosAMatriz(actualSeats[i], matriz, true);
                     } else {
-                        
+                        asignarAsientosAMatriz(actualSeats[i], matriz, false);
                     }
+                    
 }
             }
+            else if(ticketActual.getIdFlight() == id2){
+               String actualSeats[] = ticketActual.getSeats().split("-");
+                for (int i = 0; i < actualSeats.length; i++) {
+                    // Verificar si es el último elemento
+                    if (i == actualSeats.length - 1) {
+                        asignarAsientosAMatriz(actualSeats[i], matriz2, true);
+                    } else {
+                        asignarAsientosAMatriz(actualSeats[i], matriz2, false);
+                    }
+                    
+} 
+            }
             
+        }
+        rellenarMatriz(matriz);
+        imprimirMatriz(matriz);
+        if(id2 != 0){
+            rellenarMatriz(matriz2);
+            imprimirMatriz(matriz2);
+            jTable2.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                       boolean hasFocus, int row, int column) {
+            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if (matriz2[row][column] == 1) {
+                cell.setBackground(Color.GREEN);  // Ocupado
+            } else if (matriz2[row][column] == 2) {
+                cell.setBackground(Color.RED);  // Inhabilitado
+            } else {
+                cell.setBackground(Color.WHITE);  // Libre
+            }
+
+            return cell;
+        }
+    });
         }
     jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
         @Override
@@ -148,7 +172,70 @@ public class dialogSeats extends javax.swing.JDialog {
         }
     });
 }
+    public void asignarAsientosAMatriz(String seat, int[][] matriz, boolean ultimo) {
+    int coordenadaX = -1;
+    int coordenadaY = -1;
+    
+    // Determine la columna (X) basada en el primer carácter
+    switch (seat.charAt(0)) {
+        case 'A': coordenadaX = 0; break;
+        case 'B': coordenadaX = 1; break;
+        case 'C': coordenadaX = 2; break;
+        case 'D': coordenadaX = 3; break;
+        case 'E': coordenadaX = 4; break;
+        case 'F': coordenadaX = 5; break;
+        default: 
+            System.err.println("Error: Carácter inesperado para la columna en el asiento: " + seat);
+            coordenadaX = -1;
+    }
 
+    // Determine la fila (Y) basada en el segundo carácter
+    if (seat.length() > 1) {
+        switch (seat.charAt(1)) {
+            case '1': coordenadaY = 0; break;
+            case '2': coordenadaY = 1; break;
+            case '3': coordenadaY = 2; break;
+            case '4': coordenadaY = 3; break;
+            case '5': coordenadaY = 4; break;
+            case '6': coordenadaY = 5; break;
+            default:
+                System.err.println("Error: Carácter inesperado para la fila en el asiento: " + seat);
+                coordenadaY = -1;
+        }
+    } else {
+        System.err.println("Error: El asiento no tiene un formato correcto: " + seat);
+    }
+
+    // Solo asigna en la matriz si las coordenadas son válidas
+    if (coordenadaX >= 0 && coordenadaY >= 0) {
+        System.out.println("Asignando " + (ultimo ? "Inhabilitado" : "Ocupado") + " en " + seat + " (" + coordenadaX + "," + coordenadaY + ")");
+        if (ultimo) {
+            matriz[coordenadaX][coordenadaY] = 2; // El último asiento se marca como inhabilitado
+        } else {
+            matriz[coordenadaX][coordenadaY] = 1; // Asiento ocupado
+        }
+    } else {
+        System.err.println("Coordenadas inválidas para el asiento: " + seat);
+    }
+}
+    private void rellenarMatriz(int[][] matriz) {
+    for (int i = 0; i < matriz.length; i++) {
+        for (int j = 0; j < matriz[i].length; j++) {
+            if (matriz[i][j] != 1 && matriz[i][j] != 2) {
+                matriz[i][j] = 0;
+            }
+        }
+    }
+}
+    private void imprimirMatriz(int[][] matriz) {
+    System.out.println("Estado de la Matriz:");
+    for (int i = 0; i < matriz.length; i++) {
+        for (int j = 0; j < matriz[i].length; j++) {
+            System.out.print(matriz[i][j] + " ");
+        }
+        System.out.println();
+    }
+}
     /**
      * @param args the command line arguments
      */

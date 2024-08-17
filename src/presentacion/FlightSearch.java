@@ -265,6 +265,8 @@ public class FlightSearch extends javax.swing.JDialog {
             searchFlight.addHistory(historial);
             if(asientos[1] != null){
                 historial[7] = asientos[1];
+                historial[10] = String.valueOf(idScale);
+                historial[11] = String.valueOf(idVuelo);
                 searchFlight.addHistory(historial);
             }
             dialogSeats actualDialogSeats = new dialogSeats(this, true);

@@ -30,18 +30,18 @@
 345098765,Angela Phillips,638,Piloto,0
 456109876,Kevin Campbell,638,Servicio al Cliente,0
 567210987,Karen Parker,638,Servicio al Cliente,0
-678321098,Brian Evans,917,Piloto,0
+678321098,Brian Evans,917,Piloto,1
 789432109,Laura Edwards,917,Piloto,0
-890543210,Edward Collins,917,Servicio al Cliente,0
+890543210,Edward Collins,917,Servicio al Cliente,1
 901654321,Nancy Stewart,917,Servicio al Cliente,0
-123765432,George Morris,204,Piloto,0
-234876543,Mary Rogers,204,Piloto,0
-345987654,Jason Reed,204,Servicio al Cliente,0
-456098765,Margaret Cook,204,Servicio al Cliente,0
-567109876,Jeffrey Bell,355,Piloto,0
-678210987,Stephanie Murphy,355,Piloto,0
-789321098,Richard Bailey,355,Servicio al Cliente,0
-890432109,Susan Rivera,355,Servicio al Cliente,0
+123765432,George Morris,204,Piloto,1
+234876543,Mary Rogers,204,Piloto,1
+345987654,Jason Reed,204,Servicio al Cliente,1
+456098765,Margaret Cook,204,Servicio al Cliente,1
+567109876,Jeffrey Bell,355,Piloto,1
+678210987,Stephanie Murphy,355,Piloto,1
+789321098,Richard Bailey,355,Servicio al Cliente,1
+890432109,Susan Rivera,355,Servicio al Cliente,1
 901543210,Andrew Cooper,476,Piloto,0
 123654321,Laura Richardson,476,Piloto,0
 234765432,Joshua Cox,476,Servicio al Cliente,0
