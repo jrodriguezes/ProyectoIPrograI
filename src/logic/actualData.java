@@ -143,6 +143,7 @@ public class actualData {
     
     void setFlightHistory(List<Historial> historiales) {
         this.history = historiales;
+        
         List<String> flightHistoryToString = new ArrayList<>();
         
         for (Historial historialActual : historiales) {
@@ -155,7 +156,9 @@ public class actualData {
                     + String.valueOf(historialActual.getAmountOfTickets()) + ","
                     + historialActual.getSeats() + ","
                     + String.valueOf(historialActual.getTotalDuration()) + ","
-                    + String.valueOf(historialActual.getTotalCost()));
+                    + String.valueOf(historialActual.getTotalCost()) + ","
+                    + String.valueOf(historialActual.getIdFlight()) + ","
+                    + String.valueOf(historialActual.getIdScale()));
         }
         Data.escribirArchivo("src/resources/Historial.txt", flightHistoryToString);
     }

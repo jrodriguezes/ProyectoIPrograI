@@ -1,22 +1,13 @@
 package presentacion;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.Window;
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import static javax.swing.SwingUtilities.getWindowAncestor;
-import logic.actualData;
 import logic.createFlight;
-import logic.validations;
-import objects.Aerolinea;
-import objects.Aeropuerto;
+import logic.Validations;
 
 /**
  *
@@ -25,19 +16,17 @@ import objects.Aeropuerto;
 public class FlightCreator extends javax.swing.JDialog {
 
     createFlight createflight = new createFlight();
-    validations validationS = new validations();
+    Validations validationS = new Validations();
 
     private int idFlight;
 
     public static String rutaImagenAvion = "src/resources/photos/avion3.jpg";
-    public static String rutaImagenExit = "src/resources/photos/btnSalir.png";
 
     public FlightCreator(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        cargarImagen();
-        loadExitImage();
+        loadImages();
         createflight.fillComboBoxes(jcbAeropuertoSalida, jcbAeropuertoLlegada, jcbAerolinea);
         validationS.configurateSpinner(jSpinner1);
         validationS.configurateSpinner(jSpinner2);
@@ -191,80 +180,81 @@ public class FlightCreator extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        validations validationS = new validations();
-        createFlight createFlight = new createFlight();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        // Formato para las horas
-        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-        int flightId = createFlight.generateUniqueFlightId();
+        Validations validationS = new Validations();
+    createFlight createFlight = new createFlight();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+    int flightId = createFlight.generateUniqueFlightId();
 
-        String airlineName = (String) jcbAerolinea.getSelectedItem();
-        String departureAirport = (String) jcbAeropuertoSalida.getSelectedItem();
-        String arrivalAirport = (String) jcbAeropuertoLlegada.getSelectedItem();
-        Date arrivalHour = (Date) jSpinner2.getValue();
-        Date departureDate = (Date) dCCFechaSalida.getSelectedDate().getTime();
-        Date departureHour = (Date) jSpinner1.getValue();
-        Date arrivalDate = (Date) dCCFechaEntrada.getSelectedDate().getTime();
-        String priceText = (String) txtPrecio.getText();
+    String airlineName = (String) jcbAerolinea.getSelectedItem();
+    String departureAirport = (String) jcbAeropuertoSalida.getSelectedItem();
+    String arrivalAirport = (String) jcbAeropuertoLlegada.getSelectedItem();
+    Date arrivalHour = (Date) jSpinner2.getValue();
+    Date departureDate = (Date) dCCFechaSalida.getSelectedDate().getTime();
+    Date departureHour = (Date) jSpinner1.getValue();
+    Date arrivalDate = (Date) dCCFechaEntrada.getSelectedDate().getTime();
+    String priceText = txtPrecio.getText();
 
-        int price = 0;
-        try {
-            price = Integer.parseInt(priceText);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El precio ingresado no es un numero valido:");
-        }
-        int planeId = createFlight.getPlaneId(airlineName);
-        int[] tripulacion = createFlight.getCrew(airlineName);
+    int price = 0;
+    try {
+        price = Integer.parseInt(priceText);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "El precio ingresado no es un número válido:");
+        return; // Detener la ejecución si el precio no es válido
+    }
 
-        int airlineId = createFlight.getAirlineIdByName(airlineName);
-        int departureAirportId = createFlight.getAirportIdByName(departureAirport);
-        int arrivalAirportId = createFlight.getAirportIdByName(arrivalAirport);
-        int duration = createFlight.getDuration(departureDate, departureHour, arrivalDate, arrivalHour);
+    if (!validationS.validateNotLeaveBlankSpace(airlineName, "Seleccione una aerolinea")) {
+        return; // Detener la ejecución si la aerolínea no es válida
+    }
 
-        if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, arrivalHour)) {
-            return; // Detener la ejecucion si devuelve false 
-        }
+    if (!validationS.validateAirport(departureAirport, arrivalAirport)) {
+        return; // Detener la ejecución si los aeropuertos no son válidos
+    }
 
-        if (!validationS.validateArrivalDate(departureDate, arrivalDate)) {
-            return;
-        }
+    if (!validationS.validateArrivalDate(departureDate, arrivalDate)) {
+        return; // Detener la ejecución si la fecha de llegada no es válida
+    }
 
-        if (!validationS.validateAirport(departureAirport, arrivalAirport)) {
-            return;
-        }
+    if (!validationS.validateArrivalTime(departureDate, departureHour, arrivalDate, arrivalHour)) {
+        return; // Detener la ejecución si la hora de llegada no es válida
+    }
 
-        if (!validationS.validateNotLeaveBlankSpace(airlineName, "Seleccione una aerolinea")) {
-            return;
-        }
+    int planeId = createFlight.getPlaneId(airlineName);
+    int[] tripulacion = createFlight.getCrew(airlineName);
 
-        String[] flight = new String[13];
-        flight[0] = String.valueOf(flightId);; //
-        flight[1] = String.valueOf(airlineId);;
-        flight[2] = String.valueOf(price);
+    if (planeId == 0) {
+        JOptionPane.showMessageDialog(this, "No hay aviones disponibles en la aerolínea seleccionada", "Información", JOptionPane.INFORMATION_MESSAGE);
+        return; // Detener la ejecución si no hay aviones disponibles
+    }
 
-        flight[3] = dateFormat.format(departureDate);
-        flight[4] = timeFormat.format(departureHour);
-        flight[5] = String.valueOf(departureAirportId);
-        flight[6] = dateFormat.format(arrivalDate);
-        flight[7] = timeFormat.format(arrivalHour);
-        flight[8] = String.valueOf(arrivalAirportId);
-        flight[9] = String.valueOf(duration);
-        flight[10] = String.valueOf(planeId); 
-        flight[11] = String.valueOf(tripulacion[0]); 
-        flight[12] = String.valueOf(tripulacion[1]); 
-        System.out.println(planeId + "Plane id");
-        if (planeId == 0) {
-            JOptionPane.showMessageDialog(this, "No hay aviones disponibles en la aerolinea seleccionada", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            if (tripulacion[0] != 0 && tripulacion[1] != 0) {
-                
-                createFlight.addFlight(flight);
-                
-                JOptionPane.showMessageDialog(this, "Vuelo añadido", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Personal disponible insuficiente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
+    if (tripulacion[0] == 0 || tripulacion[1] == 0) {
+        JOptionPane.showMessageDialog(this, "Personal disponible insuficiente", "Información", JOptionPane.INFORMATION_MESSAGE);
+        return; // Detener la ejecución si no hay personal suficiente
+    }
+
+    int airlineId = createFlight.getAirlineIdByName(airlineName);
+    int departureAirportId = createFlight.getAirportIdByName(departureAirport);
+    int arrivalAirportId = createFlight.getAirportIdByName(arrivalAirport);
+    int duration = createFlight.getDuration(departureDate, departureHour, arrivalDate, arrivalHour);
+
+    String[] flight = new String[13];
+    flight[0] = String.valueOf(flightId);
+    flight[1] = String.valueOf(airlineId);
+    flight[2] = String.valueOf(price);
+    flight[3] = dateFormat.format(departureDate);
+    flight[4] = timeFormat.format(departureHour);
+    flight[5] = String.valueOf(departureAirportId);
+    flight[6] = dateFormat.format(arrivalDate);
+    flight[7] = timeFormat.format(arrivalHour);
+    flight[8] = String.valueOf(arrivalAirportId);
+    flight[9] = String.valueOf(duration);
+    flight[10] = String.valueOf(planeId); 
+    flight[11] = String.valueOf(tripulacion[0]); 
+    flight[12] = String.valueOf(tripulacion[1]); 
+
+    createFlight.addFlight(flight);
+    JOptionPane.showMessageDialog(this, "Vuelo añadido", "Información", JOptionPane.INFORMATION_MESSAGE);
+
 
     }//GEN-LAST:event_btnCrearActionPerformed
 
@@ -280,38 +270,10 @@ public class FlightCreator extends javax.swing.JDialog {
         window.dispose();
     }//GEN-LAST:event_lblImagenExitMouseClicked
 
-    private void cargarImagen() {
-        if (rutaImagenAvion != null && !rutaImagenAvion.isEmpty()) {
-            File imagen = new File(rutaImagenAvion);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagen.setIcon(newImageIcon);
-            } else {
-                lblImagen.setText("No se encontró la imagen.");
-            }
-        } else {
-            lblImagen.setText("No se proporcionó ninguna ruta de imagen.");
-        }
-    }
-
-    private void loadExitImage() {
-        if (rutaImagenExit != null && !rutaImagenExit.isEmpty()) {
-            File imagen = new File(rutaImagenExit);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagenExit.getWidth(), lblImagenExit.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagenExit.setIcon(newImageIcon);
-            } else {
-                lblImagenExit.setText("No se encontró la imagen.");
-            }
-        } else {
-            lblImagenExit.setText("No se proporcionó ninguna ruta de imagen.");
-        }
+    private void loadImages() {
+        Validations validations = new Validations();
+        validations.loadExitImage(lblImagenExit);
+        validations.cargarImagen(lblImagen, rutaImagenAvion);
     }
 
     public static void main(String args[]) {

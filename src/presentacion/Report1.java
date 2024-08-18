@@ -4,13 +4,18 @@
  */
 package presentacion;
 
+import java.awt.Window;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import logic.Reportes;
+import logic.Validations;
 import logic.actualData;
 import objects.Historial;
 
@@ -21,11 +26,13 @@ import objects.Historial;
 public class Report1 extends javax.swing.JDialog {
 
     private static DefaultTableModel model;
+    public static String rutaImagenAvion = "src/resources/photos/avion3.jpg";
 
     public Report1(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        loadImages();
     }
 
     @SuppressWarnings("unchecked")
@@ -42,12 +49,16 @@ public class Report1 extends javax.swing.JDialog {
         datechooserFechaFin = new datechooser.beans.DateChooserCombo();
         datechooserFechaInicio = new datechooser.beans.DateChooserCombo();
         btnBuscar = new javax.swing.JButton();
+        lblImagenExit = new javax.swing.JLabel();
+        lblImagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("REPORTE 1");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
 
@@ -61,14 +72,17 @@ public class Report1 extends javax.swing.JDialog {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 830, 190));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("FECHA INICIO");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("FICHA FIN");
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("FECHA FIN");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("RANGO DE FECHA");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, -1, -1));
         jPanel1.add(datechooserFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 160, 30));
@@ -125,6 +139,16 @@ public class Report1 extends javax.swing.JDialog {
     });
     jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, -1, -1));
 
+    lblImagenExit.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            lblImagenExitMouseClicked(evt);
+        }
+    });
+    jPanel1.add(lblImagenExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 30));
+
+    lblImagen.setForeground(new java.awt.Color(204, 204, 204));
+    jPanel1.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 830, 460));
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
@@ -149,16 +173,31 @@ public class Report1 extends javax.swing.JDialog {
         showHistoryInformation(inicialDate, finalDate);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void lblImagenExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImagenExitMouseClicked
+        Window window = SwingUtilities.getWindowAncestor(lblImagenExit);
+        window.dispose();
+    }//GEN-LAST:event_lblImagenExitMouseClicked
+
+    private void loadImages() {
+        Validations validations = new Validations();
+        validations.loadExitImage(lblImagenExit);
+        validations.cargarImagen(lblImagen, rutaImagenAvion);
+    }
+
     public void showHistoryInformation(Date datechooserFechaInicio, Date datechooserFechaFin) {
         actualData actualData = new actualData();
         Reportes reportes = new Reportes();
 
         List<Historial> flightHistory = actualData.getFlightHistory();
+        boolean foundData = false; // Flag para saber si se encontró algún dato
 
         for (Historial historialActual : flightHistory) {
 
             Date fechaCompra = historialActual.getRealTimeFlightBought();
-            if (fechaCompra.after(datechooserFechaInicio) || fechaCompra.equals(datechooserFechaInicio) && fechaCompra.before(datechooserFechaFin) || fechaCompra.equals(datechooserFechaFin)) {
+            if ((quitarHora(fechaCompra).after(quitarHora(datechooserFechaInicio)) || quitarHora(fechaCompra).equals(quitarHora(datechooserFechaInicio)))
+                    && (quitarHora(fechaCompra).before(quitarHora(datechooserFechaFin)) || quitarHora(fechaCompra).equals(quitarHora(datechooserFechaFin)))) {
+
+                foundData = true; // Si se encuentra al menos un dato
 
                 int idClient = historialActual.getIdPassenger();
                 String nameClient = reportes.getClientNameById(idClient);
@@ -178,15 +217,26 @@ public class Report1 extends javax.swing.JDialog {
                     idClient,
                     nameClient,
                     departureAirportName,
-                    "escalaImplementar",
+                    stopoverAirportName,
                     arrivalAirportName,
                     dateBought
                 });
-
             }
         }
-    }
 
+        if (!foundData) { // Si no se encontro ningun dato
+            JOptionPane.showMessageDialog(this, "No se encontró información para el rango de fechas seleccionado.", "Información no disponible", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    private static Date quitarHora(Date fecha) {
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(fecha);
+        calendario.set(Calendar.HOUR_OF_DAY, 0);
+        calendario.set(Calendar.MINUTE, 0);
+        calendario.set(Calendar.SECOND, 0);
+        calendario.set(Calendar.MILLISECOND, 0);
+        return calendario.getTime();
+    }
     /**
      * @param args the command line arguments
      */
@@ -240,5 +290,7 @@ public class Report1 extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblImagen;
+    private javax.swing.JLabel lblImagenExit;
     // End of variables declaration//GEN-END:variables
 }

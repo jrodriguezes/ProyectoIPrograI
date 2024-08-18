@@ -147,7 +147,7 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="ListSelectionModel selectionModel = jTable1.getSelectionModel();&#xa;        selectionModel.addListSelectionListener(new ListSelectionListener() {&#xa;            @Override&#xa;            public void valueChanged(ListSelectionEvent e) {&#xa;                if (!e.getValueIsAdjusting()) {&#xa;                    int selectedRow = jTable1.getSelectedRow();&#xa;                    if (selectedRow &gt;= 0) {&#xa;                        showFlightDetailsDialog(selectedRow);&#xa;                    }&#xa;                }&#xa;            }&#xa;        });">
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="ListSelectionModel selectionModel = jTable1.getSelectionModel();&#xa;        selectionModel.addListSelectionListener(new ListSelectionListener() {&#xa;            @Override&#xa;            public void valueChanged(ListSelectionEvent e) {&#xa;                if (!e.getValueIsAdjusting()) {&#xa;                    int selectedRow = jTable1.getSelectedRow();&#xa;                    if (selectedRow &gt;= 0) {&#xa;                        showFlightDetailsDialog(selectedRow);&#xa;                    }&#xa;                }&#xa;            }&#xa;        });&#xa;TableColumn column = jTable1.getColumnModel().getColumn(9);&#xa;        jTable1.getColumnModel().removeColumn(column);&#xa;        TableColumn column2 = jTable1.getColumnModel().getColumn(8);&#xa;        jTable1.getColumnModel().removeColumn(column2);">
                   <Connection code="model" type="code"/>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -159,7 +159,7 @@
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new DefaultTableModel(new Object[][]{}, new String[]{&#xa;            &quot;Aerolinea&quot;, &quot;Aeropuerto salida&quot;, &quot;Aeropuerto llegada&quot;,&#xa;            &quot;Escala&quot;, &quot;Hora salida&quot;, &quot;Hora llegada&quot;, &quot;Duracion&quot;, &quot;Precios totales&quot;&#xa;        });&#xa;        &#xa;        // Llenar el modelo con datos de la lista de vuelos"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new DefaultTableModel(new Object[][]{}, new String[]{&#xa;           &quot;Aerolinea&quot;, &quot;Aeropuerto salida&quot;, &quot;Aeropuerto llegada&quot;,&#xa;    &quot;Escala&quot;, &quot;Hora salida&quot;, &quot;Hora llegada&quot;, &quot;Duracion&quot;, &quot;Precios totales&quot;, &quot;Id Vuelo&quot;, &quot;Id Escala&quot;&#xa;});&#xa;&#xa;        &#xa;        // Llenar el modelo con datos de la lista de vuelos"/>
               </AuxValues>
             </Component>
           </SubComponents>

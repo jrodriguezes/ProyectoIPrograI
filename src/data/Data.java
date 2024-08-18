@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import logic.validations;
+import logic.Validations;
 import objects.*;
 
 /**
@@ -185,10 +185,10 @@ public class Data {
                 SimpleDateFormat alternativeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 for (String[] lineaDato : datos) {
-                    if (lineaDato.length >= 10) {
+                    if (lineaDato.length >= 12) {
                         try {
                             Historial actualHistory = new Historial();
-                            validations validations = new validations();
+                            Validations validations = new Validations();
                             actualHistory.setIdHistorial(Integer.parseInt(lineaDato[0].trim()));
                             actualHistory.setIdPassenger(Integer.parseInt(lineaDato[1].trim()));
                             actualHistory.setIdDepartureAirport(Integer.parseInt(lineaDato[2].trim()));
@@ -201,10 +201,13 @@ public class Data {
                             }
 
                             actualHistory.setAmountOfTickets(Integer.parseInt(lineaDato[6].trim()));
-                            actualHistory.setSeats((lineaDato[7].trim()));
+                            actualHistory.setSeats(lineaDato[7].trim());
                             actualHistory.setTotalDuration(Integer.parseInt(lineaDato[8].trim()));
                             actualHistory.setTotalCost(Integer.parseInt(lineaDato[9].trim()));
+                            actualHistory.setIdFlight(Integer.parseInt(lineaDato[10].trim()));
+                            actualHistory.setIdScale(Integer.parseInt(lineaDato[11].trim()));
 
+                            System.out.println(actualHistory.getSeats());
                             historiales.add(actualHistory);
 
                         } catch (NumberFormatException e) {

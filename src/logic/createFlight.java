@@ -54,13 +54,14 @@ public class createFlight {
             newFlight.setIdPlane(Integer.parseInt(flight[10]));
             newFlight.setIdPilot(Integer.parseInt(flight[11]));
             newFlight.setIdService(Integer.parseInt(flight[12]));
+            actualFlight.add(newFlight);
+            actualData.setFlights(actualFlight);
 
         } catch (NumberFormatException | ParseException e) {
             JOptionPane.showMessageDialog(null, "Error al intentar agregar un vuelo: " + e.getMessage());
             return; // Salir del metodo si hay un error
         }
-        actualFlight.add(newFlight);
-        actualData.setFlights(actualFlight);
+        
     }
 
     private void fillAirports(JComboBox jcbAeropuertoSalida, JComboBox jcbAeropuertoLlegada) {

@@ -11,7 +11,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import logic.validations;
+import logic.Validations;
 
 /**
  *
@@ -29,8 +29,7 @@ public class PassengerRegistration extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        cargarImagen();
-        loadExitImage();
+        loadImages();
     }
 
     /**
@@ -219,7 +218,7 @@ public class PassengerRegistration extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        validations validationS = new validations();
+        Validations validationS = new Validations();
         logic.createPassenger createPassanger = new logic.createPassenger();
         String id = txtCedula.getText();
         String nombre = txtNombre.getText();
@@ -340,37 +339,10 @@ public class PassengerRegistration extends javax.swing.JDialog {
         window.dispose();
     }//GEN-LAST:event_lblImagenExitMouseClicked
 
-    private void cargarImagen() {
-        if (rutaImagenAvion != null && !rutaImagenAvion.isEmpty()) {
-            File imagen = new File(rutaImagenAvion);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagen.setIcon(newImageIcon);
-            } else {
-                lblImagen.setText("No se encontró la imagen.");
-            }
-        } else {
-            lblImagen.setText("No se proporcionó ninguna ruta de imagen.");
-        }
-    }
-        private void loadExitImage() {
-        if (rutaImagenExit != null && !rutaImagenExit.isEmpty()) {
-            File imagen = new File(rutaImagenExit);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagenExit.getWidth(), lblImagenExit.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagenExit.setIcon(newImageIcon);
-            } else {
-                lblImagenExit.setText("No se encontró la imagen.");
-            }
-        } else {
-            lblImagenExit.setText("No se proporcionó ninguna ruta de imagen.");
-        }
+    private void loadImages() {
+        Validations validations = new Validations();
+        validations.loadExitImage(lblImagenExit);
+        validations.cargarImagen(lblImagen, rutaImagenAvion);
     }
     
 

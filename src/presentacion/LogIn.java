@@ -12,22 +12,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import logic.logIn;
-import logic.validations;
+import logic.Validations;
 
 public class LogIn extends javax.swing.JDialog {
 
-
     private JFramePrincipal parent;
     public static String rutaImagenAvion = "src/resources/photos/avion.jpg";
-    public static String rutaImagenExit = "src/resources/photos/btnSalir.png";
 
     public LogIn(JFramePrincipal parent, boolean modal) {
         super(parent, "Log In", modal);
         initComponents();
-        cargarImagen();
+        loadImages();
         this.parent = parent;
         setLocationRelativeTo(null);
-        loadExitImage();
         parent.jMenuItem1.setVisible(false);
         parent.jMenuItem2.setVisible(false);
         parent.MenuReportes.setVisible(false);
@@ -119,7 +116,7 @@ public class LogIn extends javax.swing.JDialog {
         parent.jMenuItem2.setVisible(false);
         parent.MenuReportes.setVisible(false);
         logIn login = new logIn();
-        validations validationS = new validations();
+        Validations validationS = new Validations();
 
         String txtCedulaConverted = txtCedula.getText();
         if (!validationS.validateAsAIntegerInTextField(txtCedulaConverted)) {
@@ -180,40 +177,12 @@ public class LogIn extends javax.swing.JDialog {
         parent.setLogged(0);
     }//GEN-LAST:event_lblImagenExitMouseClicked
 
-    private void cargarImagen() {
-        if (rutaImagenAvion != null && !rutaImagenAvion.isEmpty()) {
-            File imagen = new File(rutaImagenAvion);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagen.setIcon(newImageIcon);
-            } else {
-                lblImagen.setText("No se encontro la imagen.");
-            }
-        } else {
-            lblImagen.setText("No se proporciono ninguna ruta de imagen.");
-        }
+    private void loadImages() {
+        Validations validations = new Validations();
+        validations.loadExitImage(lblImagenExit);
+        validations.cargarImagen(lblImagen, rutaImagenAvion);
     }
-
-    private void loadExitImage() {
-        if (rutaImagenExit != null && !rutaImagenExit.isEmpty()) {
-            File imagen = new File(rutaImagenExit);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagenExit.getWidth(), lblImagenExit.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagenExit.setIcon(newImageIcon);
-            } else {
-                lblImagenExit.setText("No se encontro la imagen.");
-            }
-        } else {
-            lblImagenExit.setText("No se proporciono ninguna ruta de imagen.");
-        }
-    }
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

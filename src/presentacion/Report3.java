@@ -4,19 +4,28 @@
  */
 package presentacion;
 
-/**
- *
- * @author user
- */
+import java.awt.Window;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import logic.Reportes;
+import logic.Validations;
+import objects.Historial;
+
 public class Report3 extends javax.swing.JDialog {
 
-    /**
-     * Creates new form Report3
-     */
+    private DefaultTableModel model;
+    public static String rutaImagenAvion = "src/resources/photos/avion3.jpg";
+
     public Report3(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        loadId();
+        loadImages();
     }
 
     /**
@@ -28,25 +37,187 @@ public class Report3 extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        jcbCedula = new javax.swing.JComboBox<>();
+        lblImagenExit = new javax.swing.JLabel();
+        lblImagen = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("REPORTE 3");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, -1, -1));
+
+        model = new DefaultTableModel(new Object[][]{}, new String[]{
+            "Cedula", "Nombre", "nombre del aeropuerto de salida", "Nombre del aeropuerto de escala", "Nombre del aeropuerto de llegada","Duracion total del viaje","Cantidad de boletos", "Codigos de asientos", "Costo total del viaje"
+
+        });
+        jTable1.setModel(model);
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 1260, 190));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("CEDULAS");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 90, -1, -1));
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 210, -1, -1));
+
+        jcbCedula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una cedula:" }));
+        jPanel1.add(jcbCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 120, 160, 30));
+
+        lblImagenExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblImagenExitMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lblImagenExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 30));
+
+        lblImagen.setForeground(new java.awt.Color(204, 204, 204));
+        jPanel1.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1260, 460));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1260, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 460, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        model.setRowCount(0);
+        showInformationTable();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void lblImagenExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImagenExitMouseClicked
+        Window window = SwingUtilities.getWindowAncestor(lblImagenExit);
+        window.dispose();
+    }//GEN-LAST:event_lblImagenExitMouseClicked
+
     /**
      * @param args the command line arguments
      */
+    private void loadId() {
+    Reportes reportes = new Reportes();
+    Set<Integer> idsUnicos = new HashSet<>();  // Usamos un HashSet para evitar duplicados
+    List<Historial> historialData = reportes.obtenerHistorial();
+
+    for (Historial actualHistorial : historialData) {
+        int idPassenger = actualHistorial.getIdPassenger();
+        
+        // Solo añadimos si el ID no ha sido añadido previamente
+        if (!idsUnicos.contains(idPassenger)) {
+            idsUnicos.add(idPassenger);  // Añadir al HashSet para controlar duplicados
+            jcbCedula.addItem(String.valueOf(idPassenger));  // Añadir al JComboBox
+        }
+    }
+}
+
+
+    private void loadImages() {
+        Validations validations = new Validations();
+        validations.loadExitImage(lblImagenExit);
+        validations.cargarImagen(lblImagen, rutaImagenAvion);
+    }
+
+    private void showInformationTable() {
+    Reportes reportes = new Reportes();
+
+    String selectedValue = String.valueOf(jcbCedula.getSelectedItem());
+
+    if ("Seleccione una cedula:".equals(selectedValue)) {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione una cédula válida.", "Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    int getIdByJCB;
+
+    try {
+        getIdByJCB = Integer.parseInt(selectedValue);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El valor seleccionado no es una cédula válida.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    String clientName = reportes.getClientNameById(getIdByJCB);
+
+    if (clientName.equals("Error al conseguir nombre del cliente")) {
+        JOptionPane.showMessageDialog(this, "No se encontró información para la cédula seleccionada.", "Información no disponible", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    // Obtener todas las compras del cliente seleccionado
+    List<Historial> historialCompras = reportes.obtenerComprasPorCliente(getIdByJCB);
+
+    if (historialCompras.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron compras para el cliente seleccionado.", "Información no disponible", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    for (Historial compra : historialCompras) {
+        int getDepartureAirportId = compra.getIdDepartureAirport();
+        String getDepartureAirportName = reportes.obtainDepartureAirportNameByClientId(getDepartureAirportId);
+
+        int idArrivalAirport = compra.getIdArrivalAirport();
+        String nameArrivalAirport = reportes.obtainArrivalAirportNameByClientId(idArrivalAirport);
+
+        int idStopoverAirport = compra.getIdStopoverAirport();
+        String nameStopoverAirport = reportes.obtainStopoverAirportNameByClientId(idStopoverAirport);
+
+        int totalDuration = compra.getTotalDuration();
+        int amountOfTickets = compra.getAmountOfTickets();
+        String seats = compra.getSeats();
+        int totalCost = compra.getTotalCost();
+
+        // Agregar una fila por cada compra encontrada
+        model.addRow(new Object[]{
+            getIdByJCB,
+            clientName,
+            getDepartureAirportName,
+            nameStopoverAirport,
+            nameArrivalAirport,
+            totalDuration,
+            amountOfTickets,
+            seats,
+            totalCost
+        });
+    }
+}
+
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -87,5 +258,14 @@ public class Report3 extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> jcbCedula;
+    private javax.swing.JLabel lblImagen;
+    private javax.swing.JLabel lblImagenExit;
     // End of variables declaration//GEN-END:variables
 }

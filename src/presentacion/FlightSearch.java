@@ -2,23 +2,29 @@ package presentacion;
 
 import java.awt.Image;
 import java.awt.Window;
+import javax.swing.table.TableColumn;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import logic.SearchFlight;
+import logic.SeatsLogic;
 import logic.actualData;
-import logic.createFlight;
+import logic.Validations;
 import objects.Aerolinea;
 import objects.Aeropuerto;
 import objects.Vuelo;
@@ -28,16 +34,14 @@ public class FlightSearch extends javax.swing.JDialog {
     private int userId = 0;
     private static DefaultTableModel model;
     public static String rutaImagenAvion = "src/resources/photos/avion2.jpg";
-    public static String rutaImagenExit = "src/resources/photos/btnSalir.png";
 
     public FlightSearch(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        cargarImagen();
-        loadExitImage();
         fillCombos();
-
+        loadImages();
+        
         JFramePrincipal mainFrame = (JFramePrincipal) parent;
         this.userId = mainFrame.getUserId();
     }
@@ -94,7 +98,7 @@ public class FlightSearch extends javax.swing.JDialog {
 
         model = new DefaultTableModel(new Object[][]{}, new String[]{
             "Aerolinea", "Aeropuerto salida", "Aeropuerto llegada",
-            "Escala", "Hora salida", "Hora llegada", "Duracion", "Precios totales"
+            "Escala", "Hora salida", "Hora llegada", "Duracion", "Precios totales", "Id Vuelo", "Id Escala"
         });
 
         // Llenar el modelo con datos de la lista de vuelos
@@ -111,6 +115,10 @@ public class FlightSearch extends javax.swing.JDialog {
                 }
             }
         });
+        TableColumn column = jTable1.getColumnModel().getColumn(9);
+        jTable1.getColumnModel().removeColumn(column);
+        TableColumn column2 = jTable1.getColumnModel().getColumn(8);
+        jTable1.getColumnModel().removeColumn(column2);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 980, 190));
@@ -167,25 +175,29 @@ public class FlightSearch extends javax.swing.JDialog {
     private void showFlightDetailsDialog(int selectedRow) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-// Get values from table
+        // Obtener otros valores de la tabla
         String aerolinea = (String) jTable1.getValueAt(selectedRow, 0);
         String aeropuertoSalida = (String) jTable1.getValueAt(selectedRow, 1);
         String aeropuertoLlegada = (String) jTable1.getValueAt(selectedRow, 2);
         String escala = (String) jTable1.getValueAt(selectedRow, 3);
 
-// Convert Date objects to Strings if necessary
+        // Manejar objetos Date
         Object horaSalidaObj = jTable1.getValueAt(selectedRow, 4);
         Object horaLlegadaObj = jTable1.getValueAt(selectedRow, 5);
-        Object duracionObj = jTable1.getValueAt(selectedRow, 6);
-        Object preciosTotalesObj = jTable1.getValueAt(selectedRow, 7);
-
-// Handle Date objects separately
         String horaSalida = horaSalidaObj instanceof Date ? dateFormat.format((Date) horaSalidaObj) : horaSalidaObj.toString();
         String horaLlegada = horaLlegadaObj instanceof Date ? dateFormat.format((Date) horaLlegadaObj) : horaLlegadaObj.toString();
 
-// Assuming duracionObj and preciosTotalesObj are not Date objects
-        String duracion = duracionObj != null ? duracionObj.toString() : "N/A";
-        String preciosTotales = preciosTotalesObj != null ? preciosTotalesObj.toString() : "N/A";
+        // Convertir Integer a String correctamente
+        String duracion = String.valueOf(jTable1.getValueAt(selectedRow, 6));
+        String preciosTotales = String.valueOf(jTable1.getValueAt(selectedRow, 7));
+
+        
+        
+        // Obtener valores de las columnas antes de ocultarlas
+        Object idFlightObj = jTable1.getModel().getValueAt(selectedRow, 8); // Guardar valor de la columna 8
+        Object idScaleObj = jTable1.getModel().getValueAt(selectedRow, 9);  // Guardar valor de la columna 9
+        String idVuelo = idFlightObj != null ? idFlightObj.toString() : "N/A";
+        String idScale = idScaleObj != null ? idScaleObj.toString() : "N/A";
 
         JButton btnRegresar = new JButton("Regresar");
         JButton btnComprar = new JButton("Comprar");
@@ -201,9 +213,10 @@ public class FlightSearch extends javax.swing.JDialog {
                 + "Hora salida: " + horaSalida + "\n"
                 + "Hora llegada: " + horaLlegada + "\n"
                 + "Duracion: " + duracion + "\n"
-                + "Precios totales: " + preciosTotales;
+                + "Precios totales: " + preciosTotales + "\n"
+                + "Id de vuelo: " + idVuelo + "\n"
+                + "Id de escala: " + idScale;
 
-// Set up button actions
         btnRegresar.addActionListener(event -> {
             Window window = SwingUtilities.getWindowAncestor(panelBotones);
             if (window != null) {
@@ -212,51 +225,37 @@ public class FlightSearch extends javax.swing.JDialog {
         });
 
         btnComprar.addActionListener(event -> {
-            SearchFlight searchFlight = new SearchFlight();
-
-            int uniqueId = searchFlight.generateUniqueHistoryId();
-            SimpleDateFormat actualDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            int idDepartureAirport = searchFlight.getAirportIdByName(aeropuertoSalida);
-            int idArrivalAirport = searchFlight.getAirportIdByName(aeropuertoLlegada);
-            int quantityTickets = (Integer) spinnerPassengers.getValue();
-            Date actualDateTime = new Date();
-
-            String[] historial = new String[10];
-            historial[0] = String.valueOf(uniqueId);// id de historial
-            historial[1] = String.valueOf(userId); // id cliente
-            historial[2] = String.valueOf(idDepartureAirport); // aeropuerto salida
-            historial[3] = String.valueOf(idArrivalAirport); // aeropuerto llegada
-            historial[4] = String.valueOf(31); // escala necesita ser implementada //
-            historial[5] = actualDate.format(actualDateTime);  // fecha y hora de compra
-            historial[6] = String.valueOf(quantityTickets); // cantidas personas
-            historial[7] = "A1"; // asientos necesita ser implementada //
-            historial[8] = String.valueOf(duracion); // duracion total
-            historial[9] = String.valueOf(preciosTotales); // precio total
-
-            searchFlight.addHistory(historial);
+            try {
+                SearchFlight searchFlight = new SearchFlight();
+                searchFlight.processPurchase(userId, selectedRow, jTable1, spinnerPassengers);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al procesar la compra: " + e.getMessage());
+            }
         });
 
-        // Panel que se muestra
         JOptionPane.showOptionDialog(
                 null,
-                new Object[]{message, panelBotones}, // Contenido del dialogo se puede pasar un array de objetos, aqui un mensaje y un panel de botones.
+                new Object[]{message, panelBotones},
                 "Detalle del Vuelo",
-                JOptionPane.DEFAULT_OPTION, // 'DEFAULT_OPTION' significa que el cuadro de dialogo no tiene botones de opcion especifico solo el predeterminado
+                JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
-                null, // Icono personalizado'null' significa que se usara el icono predeterminado para el tipo de mensaje
-                new Object[]{}, // Opciones del cuadro de dialogo un array vacío indica que no hay un conjunto personalizado de opciones
-                null // Opcion predeterminada'null' significa que no se selecciona una opcion predeterminada
+                null,
+                new Object[]{},
+                null
         );
     }
 
     private void filterFlights() {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         actualData dataActual = new actualData();
         List<Aeropuerto> actualAirports = dataActual.getAirports();
         List<Vuelo> actualFlights = dataActual.getFlights();
         List<Aerolinea> actualAirlines = dataActual.getAirlines();
         int id1 = 0;
         int id2 = 0;
+        int id3 = 0;
+        Date selectedDate;
 
         String departureAirport = String.valueOf(jcbOrigen.getSelectedItem());
         String arrivalAirport = String.valueOf(jcbDestino.getSelectedItem());
@@ -273,84 +272,129 @@ public class FlightSearch extends javax.swing.JDialog {
 
             }
             if (actualFlight.getIdDepartureAirport() == id1 && actualFlight.getIdArrivalAirport() == id2) {
-                filteredFlights.add(actualFlight);//lista filtrada para los vuelos que cumplen los parametros
-                System.out.println(datechooserFechaSalida.getSelectedDate());
+                Calendar calendar = datechooserFechaSalida.getSelectedDate();
+                selectedDate = calendar.getTime();
+                if (quitarHora(actualFlight.getDepartureDate()).equals(quitarHora(selectedDate))) {
+                    filteredFlights.add(actualFlight);//lista filtrada para los vuelos que cumplen los parametros
+                }
+            } else if (actualFlight.getIdDepartureAirport() == id1 && actualFlight.getIdArrivalAirport() != id2) {
+                for (Vuelo actualFlight2 : actualFlights) {
+                    if (actualFlight2.getIdArrivalAirport() == id2 && actualFlight2.getIdDepartureAirport() == actualFlight.getIdArrivalAirport()) {
+                        System.out.println("se hace comprobacion");
+                        if (actualFlight.getArrivalDate().after(actualFlight2.getDepartureDate()) || actualFlight.getArrivalDate().equals(actualFlight2.getDepartureDate()) && actualFlight2.getDepartureHour().after(actualFlight.getArrivalHour())) {
+                            id3 = actualFlight2.getIdDepartureAirport();
+                            filteredFlights.add(actualFlight);
+                            filteredFlights.add(actualFlight2);
+
+                        }
+                    }
+                }
             }
+
         }
         model.setRowCount(0);
-        showFlights(filteredFlights, dataActual);
+        showFlights(filteredFlights, dataActual, id3);
 
     }
 
-    private void showFlights(List<Vuelo> filteredFlights, actualData dataActual) {
-        for (Vuelo actualFlight : filteredFlights) {
-            String nombre = "";
-            String aeropuerto1 = "";
-            String aeropuerto2 = "";
+       private void showFlights(List<Vuelo> filteredFlights, actualData dataActual, int id3) {
+        SimpleDateFormat formato12Horas = new SimpleDateFormat("hh:mm a");
+        
+        String nombre = "";
+        String aeropuerto1 = "";
+        String aeropuerto2 = "";
+        String aeropuertoEscala = "";
 
-            for (Aerolinea airline : dataActual.getAirlines()) {
-                if (actualFlight.getIdAirline() == airline.getIdAirline()) {
-                    nombre = airline.getAirlineName();
-                }
-            }
-            for (Aeropuerto airport : dataActual.getAirports()) {
-                if (actualFlight.getIdDepartureAirport() == airport.getIdAirport()) {
-                    aeropuerto1 = airport.getAirportName();
-                }
-            }
-            for (Aeropuerto airport : dataActual.getAirports()) {
-                if (actualFlight.getIdArrivalAirport() == airport.getIdAirport()) {
-                    aeropuerto2 = airport.getAirportName();
-                }
-            }
-            int passengers = (Integer) spinnerPassengers.getValue();
-            int passengersMultipliedPrice = actualFlight.getFlightPrice() * passengers;
+        if (id3 == 0) {
+            for (Vuelo actualFlight : filteredFlights) {
 
-            model.addRow(new Object[]{
-                nombre,
-                aeropuerto1,
-                aeropuerto2,
-                "escalaImplementar",
-                actualFlight.getDepartureHour(),
-                actualFlight.getArrivalHour(),
-                actualFlight.getFlightDuration(),
-                passengersMultipliedPrice
-            });
-        }
-    }
+                for (Aerolinea airline : dataActual.getAirlines()) {
+                    if (actualFlight.getIdAirline() == airline.getIdAirline()) {
+                        nombre = airline.getAirlineName();
+                    }
+                }
+                for (Aeropuerto airport : dataActual.getAirports()) {
+                    if (actualFlight.getIdDepartureAirport() == airport.getIdAirport()) {
+                        aeropuerto1 = airport.getAirportName();
+                    }
+                }
+                for (Aeropuerto airport : dataActual.getAirports()) {
+                    if (actualFlight.getIdArrivalAirport() == airport.getIdAirport()) {
+                        aeropuerto2 = airport.getAirportName();
+                    }
+                }
+                int passengers = (Integer) spinnerPassengers.getValue();
+                int passengersMultipliedPrice = actualFlight.getFlightPrice() * passengers;
 
-    private void cargarImagen() {
-        if (rutaImagenAvion != null && !rutaImagenAvion.isEmpty()) {
-            File imagen = new File(rutaImagenAvion);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagen.setIcon(newImageIcon);
-            } else {
-                lblImagen.setText("No se encontró la imagen.");
+                model.addRow(new Object[]{
+                    nombre,
+                    aeropuerto1,
+                    aeropuerto2,
+                    "",
+                    formato12Horas.format(actualFlight.getDepartureHour()),
+                    formato12Horas.format(actualFlight.getArrivalHour()),
+                    actualFlight.getFlightDuration(),
+                    passengersMultipliedPrice,
+                    actualFlight.getIdFlight(),
+                    0
+                });
             }
         } else {
-            lblImagen.setText("No se proporcionó ninguna ruta de imagen.");
+
+            for (int i = 0; i < filteredFlights.size() - 1; i += 2) {
+                Vuelo flight1 = filteredFlights.get(i);
+                Vuelo flight2 = filteredFlights.get(i + 1);
+                int passengers = (Integer) spinnerPassengers.getValue();
+                int passengersMultipliedPrice = (flight1.getFlightPrice() + flight2.getFlightPrice()) * passengers;
+                for (Aerolinea airline : dataActual.getAirlines()) {
+                    if (flight1.getIdAirline() == airline.getIdAirline()) {
+                        nombre = airline.getAirlineName();
+                    }
+                }
+                for (Aeropuerto airport : dataActual.getAirports()) {
+                    if (flight1.getIdDepartureAirport() == airport.getIdAirport()) {
+                        aeropuerto1 = airport.getAirportName();
+                    } else if (flight1.getIdArrivalAirport() == airport.getIdAirport() && flight2.getIdDepartureAirport() == airport.getIdAirport()) {
+                        aeropuertoEscala = airport.getAirportName();
+                    }
+                }
+                for (Aeropuerto airport : dataActual.getAirports()) {
+                    if (flight2.getIdArrivalAirport() == airport.getIdAirport()) {
+                        aeropuerto2 = airport.getAirportName();
+                    }
+                }
+
+                model.addRow(new Object[]{
+                    nombre,
+                    aeropuerto1,
+                    aeropuerto2,
+                    aeropuertoEscala,
+                    formato12Horas.format(flight1.getDepartureHour()),
+                    formato12Horas.format(flight2.getArrivalHour()),
+                    flight1.getFlightDuration() + flight2.getFlightDuration(),
+                    passengersMultipliedPrice,
+                    flight1.getIdFlight(),
+                    flight2.getIdFlight()
+                });
+            }
         }
     }
 
-    private void loadExitImage() {
-        if (rutaImagenExit != null && !rutaImagenExit.isEmpty()) {
-            File imagen = new File(rutaImagenExit);
-            if (imagen.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imagen.getAbsolutePath());
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(lblImagenExit.getWidth(), lblImagenExit.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImageIcon = new ImageIcon(newimg);
-                lblImagenExit.setIcon(newImageIcon);
-            } else {
-                lblImagenExit.setText("No se encontró la imagen.");
-            }
-        } else {
-            lblImagenExit.setText("No se proporcionó ninguna ruta de imagen.");
-        }
+
+    private static Date quitarHora(Date fecha) {
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(fecha);
+        calendario.set(Calendar.HOUR_OF_DAY, 0);
+        calendario.set(Calendar.MINUTE, 0);
+        calendario.set(Calendar.SECOND, 0);
+        calendario.set(Calendar.MILLISECOND, 0);
+        return calendario.getTime();
+    }
+
+    private void loadImages() {
+        Validations validations = new Validations();
+        validations.loadExitImage(lblImagenExit);
+        validations.cargarImagen(lblImagen, rutaImagenAvion);
     }
 
     private void fillCombos() {
@@ -360,6 +404,8 @@ public class FlightSearch extends javax.swing.JDialog {
             jcbDestino.addItem(actualAirport.getAirportName());
         }
     }
+    
+    
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
